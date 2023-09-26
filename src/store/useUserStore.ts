@@ -6,9 +6,9 @@ interface UserStore {
 }
 
 export enum Role {
-    ADMIN = "admin",
-    POLICE = "police",
-    CITIZEN = "citizen",
+    ADMIN = "Admin",
+    POLICE = "Police",
+    CITIZEN = "Citizen",
 }
 export const userUserStore = create<UserStore>((set) => ({
     role: Role.POLICE,
