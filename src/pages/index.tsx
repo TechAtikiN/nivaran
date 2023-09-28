@@ -1,32 +1,33 @@
 // named imports
-import { useEffect } from 'react'
+import { useEffect, useState } from 'react'
 import { userUserStore } from '@/store/useUserStore'
-import { useAddress, useContract, useOwnedNFTs } from '@thirdweb-dev/react'
+import { NFT, useAddress, useContract, useOwnedNFTs } from '@thirdweb-dev/react'
+
 // default imports
-import AdminDashboard from './components/admin/AdminDashboard';
-import PoliceDashboard from './components/police/PoliceDashboard';
-import CitizenDashboard from './components/citizen/CitizenDashboard';
+import AdminDashboard from '../components/admin/AdminDashboard'
+import PoliceDashboard from '../components/police/PoliceDashboard'
 
 enum Role {
   POLICE = 'Police',
   ADMIN = 'Admin',
-  CITIZEN = 'Citizen'
+  NULL = 0 as const
+
 }
 
 export default function Home() {
+  const address = useAddress()
+
   // user state from zustand store
   const [role, setRole] = userUserStore(state => [state.role, state.setRole])
-
-  // user address
-  const address = useAddress()
+  const [nfts, setNfts] = useState<NFT[]>([])
 
   // define contracts for police and citizen NFTs
   const { contract: policeCollection } = useContract(process.env.NEXT_PUBLIC_POLICE_NFT_CONTRACT_ADDRESS)
-  const { contract: citizenCollection } = useContract(process.env.CITIZEN_NFT_CONTRACT_ADDRESS)
+  // const { contract: citizenCollection } = useContract(process.env.CITIZEN_NFT_CONTRACT_ADDRESS)
 
   // fetch nfts owned by police and citizen
   const { data: policeAccessNFTs, isLoading: policeAccessDataLoading } = useOwnedNFTs(policeCollection, address)
-  const { data: citizenAccessNFTs, isLoading: citizenAccessDataLoading } = useOwnedNFTs(citizenCollection, address)
+  // const { data: citizenAccessNFTs, isLoading: citizenAccessDataLoading } = useOwnedNFTs(citizenCollection, address)
 
   //  fetch FIR NFTs from three collections
   // const { contract } = useContract(process.env.NEXT_PUBLIC_COLLECTION_CONTRACT)
@@ -36,12 +37,26 @@ export default function Home() {
   useEffect(() => {
     if (process.env.NEXT_PUBLIC_ADMIN_WALLET_ADDRESS === address) {
       setRole(Role.ADMIN)
-    } else if (policeAccessNFTs) {
+    } else if (policeAccessNFTs?.length! > 0) {
       setRole(Role.POLICE)
     } else {
-      setRole(Role.CITIZEN)
+      setRole(Role.NULL)
     }
-  }, [address])
+  }, [address, policeAccessNFTs])
+
+  const fetchNFTs = async () => {
+    try {
+      const nftsData: NFT[] | undefined =
+        await policeCollection?.erc721.getAll();
+      setNfts(nftsData || []);
+    } catch (error) {
+      console.error("Error fetching NFTs", error);
+    }
+  };
+
+  // useEffect(() => {
+  //   fetchNFTs();
+  // }, []);
 
   // if not connected to wallet
   if (!address) return <p>Not connected...</p>
@@ -49,8 +64,8 @@ export default function Home() {
   // if admin
   if (process.env.NEXT_PUBLIC_ADMIN_WALLET_ADDRESS === address) return <AdminDashboard />
 
-  if (!policeAccessNFTs) {
-    return <p>No Access...</p>
+  if (policeAccessDataLoading) {
+    return <p>Loading...</p>
   }
 
   // if (policeAccessDataLoading || citizenAccessDataLoading) {
@@ -68,7 +83,7 @@ export default function Home() {
 
   if (role === Role.POLICE) {
     return <PoliceDashboard />
-  } else if (role === Role.CITIZEN) {
-    return <CitizenDashboard />
+  } else {
+    return <p>Not authorized</p>
   }
 }

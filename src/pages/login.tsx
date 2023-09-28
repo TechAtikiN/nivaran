@@ -5,18 +5,25 @@ import { userUserStore } from '@/store/useUserStore'
 import { useRouter } from 'next/navigation'
 // default imports
 import Image from 'next/image'
+import { useEffect } from 'react'
 
 enum Role {
   POLICE = 'Police',
   ADMIN = 'Admin',
-  CITIZEN = 'Citizen'
+  NULL = 0 as const
 }
 
 const Login = () => {
   const router = useRouter()
-  const [role, setRole] = userUserStore((state) => [state.role, state.setRole]) // user state from zustand store  
-
   const address = useAddress()
+
+  const [role, setRole, userAddress, setUserAddress] = userUserStore( // user state from zustand store
+    (state) => [state.role, state.setRole, state.userAddress, state.setUserAddress]
+  )
+
+  useEffect(() => {
+    setUserAddress(address as string)
+  }, [address])
 
   const handleRoleChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
     setRole(e.target.value as Role)
@@ -61,7 +68,6 @@ const Login = () => {
               name='role' id='role'
               className='bg-sky-100 p-2 focus:outline-none font-bold text-sky-600 rounded-tl-xl rounded-br-xl border border-sky-400 w-1/2'
             >
-              <option value='Citizen'>{Role.CITIZEN}</option>
               <option value='Police'>{Role.POLICE}</option>
               <option value='Admin'>{Role.ADMIN}</option>
             </select>
