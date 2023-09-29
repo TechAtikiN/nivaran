@@ -2,9 +2,13 @@
 @tailwind components;
 @tailwind utilities;
 
+::-webkit-scrollbar {
+    width: 0px;
+}
+
 @layer components {
     .dashboard-heading {
-        @apply text-2xl underline font-bold text-gray-700;
+        @apply text-2xl font-bold text-gray-700;
     }
     .badge-btn {
         @apply px-3 py-1 text-sm rounded-md font-semibold;
@@ -16,6 +20,6 @@
         @apply text-xs text-gray-700 font-semibold text-center py-4;
     }
     .form-input {
-        @apply col-span-3 focus:outline-none px-3 py-2 border border-gray-300 rounded-md;
+        @apply col-span-3 font-normal focus:outline-none px-3 py-2 border border-gray-300 rounded-md;
     }
 }

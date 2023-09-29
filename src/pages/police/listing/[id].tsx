@@ -1,9 +1,10 @@
 // named imports
 import { useAuth } from '@/hooks/useAuth'
 import { userUserStore } from '@/store/useUserStore'
+import { useRouter } from 'next/router'
 // default imports
 import DashboardLayout from '@/components/globals/DashboardLayout'
-import { useRouter } from 'next/router'
+import NotAuthorized from '@/components/globals/NotAuthorized'
 
 const FIRDetail = () => {
   const router = useRouter()
@@ -12,8 +13,8 @@ const FIRDetail = () => {
   const [role, userAddress, setRole] = userUserStore(state => [state.role, state.userAddress, state.setRole])
   const isAuthenicated = useAuth(process.env.NEXT_PUBLIC_POLICE_NFT_CONTRACT_ADDRESS!, userAddress)
 
-  if (!isAuthenicated) return <div>Unauthorized Access</div>
-  console.log(role)
+  if (!isAuthenicated) return <NotAuthorized />
+
   return (
     <DashboardLayout>
       <div className='p-4'>

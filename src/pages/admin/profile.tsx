@@ -1,26 +1,23 @@
 // named imports
-import { useAuth } from '@/hooks/useAuth'
 import { userUserStore } from '@/store/useUserStore'
 // default imports
 import DashboardLayout from '@/components/globals/DashboardLayout'
-import FIRTable from '@/components/police/FIRTable'
 import NotAuthorized from '@/components/globals/NotAuthorized'
 
-const FIRListing = () => {
+const ProfilePage = () => {
   const [role, userAddress, setRole] = userUserStore(state => [state.role, state.userAddress, state.setRole])
-  const isAuthenicated = useAuth(process.env.NEXT_PUBLIC_POLICE_NFT_CONTRACT_ADDRESS!, userAddress)
-
-  if (!isAuthenicated) return <NotAuthorized />
+  const isAdmin = process.env.NEXT_PUBLIC_ADMIN_WALLET_ADDRESS === userAddress ? true : false
   console.log(role)
+
+  if (!isAdmin) return <NotAuthorized />
+
   return (
     <DashboardLayout>
       <div className='p-4'>
-        <h2 className='dashboard-heading'>FIR Listing</h2>
-
-        <FIRTable />
+        <h2 className='dashboard-heading'>Admin Profile</h2>
       </div>
     </DashboardLayout>
   )
 }
 
-export default FIRListing
+export default ProfilePage

@@ -24,11 +24,6 @@ export const policeNavLinks = [
         icon: <ClipboardDocumentCheckIcon />
     },
     {
-        name: 'Register FIR',
-        path: '/police/register',
-        icon: <DocumentPlusIcon />
-    },
-    {
         name: 'Profile',
         path: '/police/profile',
         icon: <UserIcon />

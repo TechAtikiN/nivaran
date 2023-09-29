@@ -7,6 +7,7 @@ import { NFT, useAddress, useContract, useOwnedNFTs } from '@thirdweb-dev/react'
 import AdminDashboard from '../components/admin/AdminDashboard'
 import PoliceDashboard from '../components/police/PoliceDashboard'
 import Image from 'next/image'
+import NotAuthorized from '@/components/globals/NotAuthorized'
 
 enum Role {
   POLICE = 'Police',
@@ -89,6 +90,6 @@ export default function Home() {
   if (role === Role.POLICE) {
     return <PoliceDashboard />
   } else {
-    return <p>Not authorized</p>
+    return <NotAuthorized />
   }
 }

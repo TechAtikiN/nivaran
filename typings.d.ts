@@ -9,6 +9,7 @@ type FIR = {
     description: string;
     status: string;
     victimName: string;
+    victimEmail: string;
     phone: string;
     date: string;
 };
