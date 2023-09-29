@@ -6,12 +6,12 @@ import { NFT, useAddress, useContract, useOwnedNFTs } from '@thirdweb-dev/react'
 // default imports
 import AdminDashboard from '../components/admin/AdminDashboard'
 import PoliceDashboard from '../components/police/PoliceDashboard'
+import Image from 'next/image'
 
 enum Role {
   POLICE = 'Police',
   ADMIN = 'Admin',
   NULL = 0 as const
-
 }
 
 export default function Home() {
@@ -23,11 +23,7 @@ export default function Home() {
 
   // define contracts for police and citizen NFTs
   const { contract: policeCollection } = useContract(process.env.NEXT_PUBLIC_POLICE_NFT_CONTRACT_ADDRESS)
-  // const { contract: citizenCollection } = useContract(process.env.CITIZEN_NFT_CONTRACT_ADDRESS)
-
-  // fetch nfts owned by police and citizen
   const { data: policeAccessNFTs, isLoading: policeAccessDataLoading } = useOwnedNFTs(policeCollection, address)
-  // const { data: citizenAccessNFTs, isLoading: citizenAccessDataLoading } = useOwnedNFTs(citizenCollection, address)
 
   //  fetch FIR NFTs from three collections
   // const { contract } = useContract(process.env.NEXT_PUBLIC_COLLECTION_CONTRACT)
@@ -65,7 +61,16 @@ export default function Home() {
   if (process.env.NEXT_PUBLIC_ADMIN_WALLET_ADDRESS === address) return <AdminDashboard />
 
   if (policeAccessDataLoading) {
-    return <p>Loading...</p>
+    return (
+      <div className='flex items-center h-screen bg-sky-200 justify-center'>
+        <Image
+          src='https://usagif.com/wp-content/uploads/loading-36.gif'
+          alt='Loading...'
+          width={100}
+          height={100}
+        />
+      </div>
+    )
   }
 
   // if (policeAccessDataLoading || citizenAccessDataLoading) {

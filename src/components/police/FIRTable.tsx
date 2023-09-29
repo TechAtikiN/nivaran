@@ -1,6 +1,13 @@
-import { EllipsisVerticalIcon } from "@heroicons/react/24/solid"
 import { useState } from "react"
-import { Dialog, DialogContent, DialogDescription, DialogFooter, DialogHeader, DialogTitle, DialogTrigger } from "../ui/dialog"
+import {
+  Dialog,
+  DialogContent,
+  DialogDescription,
+  DialogFooter,
+  DialogHeader,
+  DialogTitle,
+  DialogTrigger
+} from "../ui/dialog"
 import { Button } from "../ui/button"
 import { useRouter } from "next/navigation"
 
@@ -40,22 +47,22 @@ const FIRTable = () => {
       <div className='py-3 px-5 mt-5 border border-gray-300 rounded-md text-gray-800'>
 
         <div className='my-3 flex justify-between items-center'>
-          <div>
-            <button onClick={() => setSelectedStatus('Pending')} className={`badge-btn ${selectedStatus === 'Pending' ? 'bg-sky-200' : 'bg-white'}`}>Pending</button>
-            <button onClick={() => setSelectedStatus('In-progress')} className={`badge-btn ${selectedStatus === 'In-progress' ? 'bg-sky-200' : 'bg-white'}`}>In progress</button>
-            <button onClick={() => setSelectedStatus('Completed')} className={`badge-btn ${selectedStatus === 'Completed' ? 'bg-sky-200' : 'bg-white'}`}>Completed</button>
+          <div className='border border-gray-200 rounded-md p-2'>
+            <button onClick={() => setSelectedStatus('Pending')} className={`badge-btn ${selectedStatus === 'Pending' ? 'bg-sky-100' : 'bg-white'}`}>Pending</button>
+            <button onClick={() => setSelectedStatus('In-progress')} className={`badge-btn ${selectedStatus === 'In-progress' ? 'bg-sky-100' : 'bg-white'}`}>In progress</button>
+            <button onClick={() => setSelectedStatus('Completed')} className={`badge-btn ${selectedStatus === 'Completed' ? 'bg-sky-100' : 'bg-white'}`}>Completed</button>
           </div>
           <button onClick={() => router.push('/police/register')} className='bg-sky-300 px-5 py-1 text-gray-700 font-semibold rounded-md'>Create FIR</button>
         </div>
 
         <table className='w-full mt-7'>
           <thead className='w-full border-b border-gray-300'>
-            <tr className=''>
-              <th className='table-header'>FIR Id.</th>
+            <tr className='bg-gray-200'>
+              <th className='table-header rounded-tl-lg'>FIR Id.</th>
               <th className='table-header'>Victim Name</th>
               <th className='table-header'>Victim Contact</th>
               <th className='table-header'>Date</th>
-              <th className='table-header'>Status</th>
+              <th className='table-header rounded-tr-lg'>Status</th>
             </tr>
           </thead>
 
@@ -63,7 +70,7 @@ const FIRTable = () => {
             {firData.map((fir: FIR, index) => (
               <tr
                 key={fir.id}
-                className={`w-full hover:cursor-pointer ${index % 2 === 0 ? 'bg-sky-50' : 'bg-white'} text-sm border-b border-gray-300`}
+                className={`w-full hover:cursor-pointer ${index % 2 === 1 ? 'bg-sky-50' : 'bg-white'} text-sm border-b border-gray-300`}
               >
                 <td className='table-data'>{fir.id}</td>
                 <td className='table-data'>{fir.victimName}</td>
@@ -74,8 +81,8 @@ const FIRTable = () => {
                     <DialogTrigger>
                       <span
                         className={`px-2 py-1 rounded-full text-xs ${fir.status === 'Pending'
-                          ? 'bg-green-100 text-green-600'
-                          : 'bg-red-100 text-red-600'
+                          ? 'bg-rose-100 text-rose-600'
+                          : fir.status === 'In-progress' ? 'bg-yellow-100 text-yellow-600' : 'bg-green-100 text-green-600'
                           }`}
                       >
                         {fir.status}
@@ -89,32 +96,32 @@ const FIRTable = () => {
                         </DialogDescription>
                         <div className="grid gap-4 py-4 text-sm">
                           <div className="grid grid-cols-4 items-center gap-4">
-                            <label htmlFor="description" className="">
+                            <label htmlFor="description">
                               Description
                             </label>
                             <input
                               id="description"
-                              className="col-span-3 focus:outline-none px-3 py-2 border border-gray-300 rounded-md"
+                              className="form-input"
                             />
                           </div>
                           <div className="grid grid-cols-4 items-center gap-4">
-                            <label htmlFor="remark" className="">
+                            <label htmlFor="remark">
                               Remark
                             </label>
                             <input
                               id="remark"
-                              className="col-span-3 focus:outline-none px-3 py-2 border border-gray-300 rounded-md"
+                              className="form-input"
                             />
                           </div>
                           {/* add a file input */}
                           <div className="grid grid-cols-4 items-center gap-4">
-                            <label htmlFor="documents" className="">
+                            <label htmlFor="documents">
                               Documents
                             </label>
                             <input
                               id="documents"
                               type='file'
-                              className="col-span-3 focus:outline-none px-3 py-2 border border-gray-300 rounded-md"
+                              className="form-input"
                             />
 
                           </div>

@@ -4,10 +4,10 @@ import { Kanit } from 'next/font/google'
 import { adminNavLinks, policeNavLinks } from '../../constants/navLinks'
 import { ConnectWallet } from '@thirdweb-dev/react'
 import { userUserStore } from '@/store/useUserStore'
+import { useState } from 'react'
 
 // default imports
 import Link from 'next/link'
-import { useState } from 'react'
 
 const pacifico = Kanit({ weight: '400', subsets: ['latin'] })
 
@@ -25,8 +25,7 @@ const Sidebar = () => {
 
       <div>
         {/* Sidebar header */}
-        <h2 onClick={() => handleSidebar()} className='text-4xl text-center hover:scale-110 transition-transform duration-150 ease-in-out hover:cursor-pointer mb-5 text-gray-200'
-        >
+        <h2 onClick={() => handleSidebar()} className='text-4xl text-center hover:scale-110 transition-transform duration-150 ease-in-out hover:cursor-pointer mb-5 text-gray-200'>
           <span className={pacifico.className}>{sidebarCollapsed ? 'N' : 'Nivaran'}</span>
         </h2>
 
@@ -51,6 +50,7 @@ const Sidebar = () => {
           </ul>
         </div>
       </div>
+
       <div className={`mx-auto ${sidebarCollapsed ? ' hidden' : 'block'}`}>
         <ConnectWallet />
       </div>
