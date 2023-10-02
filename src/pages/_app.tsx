@@ -8,7 +8,7 @@ export default function App({ Component, pageProps }: AppProps) {
   const activeChain = 'mumbai'
   return (
     <ThirdwebProvider
-      clientId={process.env.NEXT_PUBLIC_THIRDWEB_CLIENT_ID}
+      clientId='c0ce66fc998d87b5b7fa1d703fc486bd'
       activeChain={activeChain}
     >
       <Component {...pageProps} />

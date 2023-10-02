@@ -13,3 +13,29 @@ type FIR = {
     phone: string;
     date: string;
 };
+
+type OfficerMetadata = {
+    description: string;
+    id: string;
+    image: string;
+    name: string;
+    properties: {
+        id: string;
+        walletAddress: string;
+        name: string;
+        email: string;
+        contact: string;
+        location: string;
+        idCard: FileList;
+    };
+};
+
+type Officer = {
+    id: string;
+    walletAddress: string;
+    name: string;
+    email: string;
+    contact: string;
+    location: string;
+    idCard: FileList;
+};

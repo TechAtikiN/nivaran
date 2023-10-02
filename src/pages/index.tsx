@@ -1,10 +1,11 @@
+
 // named imports
 import { useEffect, useState } from 'react'
 import { userUserStore } from '@/store/useUserStore'
 import { NFT, useAddress, useContract, useOwnedNFTs } from '@thirdweb-dev/react'
+import { useRouter } from 'next/router'
 
 // default imports
-import AdminDashboard from '../components/admin/AdminDashboard'
 import PoliceDashboard from '../components/police/PoliceDashboard'
 import Image from 'next/image'
 import NotAuthorized from '@/components/globals/NotAuthorized'
@@ -17,6 +18,7 @@ enum Role {
 
 export default function Home() {
   const address = useAddress()
+  const router = useRouter()
 
   // user state from zustand store
   const [role, setRole] = userUserStore(state => [state.role, state.setRole])
@@ -59,7 +61,9 @@ export default function Home() {
   if (!address) return <p>Not connected...</p>
 
   // if admin
-  if (process.env.NEXT_PUBLIC_ADMIN_WALLET_ADDRESS === address) return <AdminDashboard />
+  if (process.env.NEXT_PUBLIC_ADMIN_WALLET_ADDRESS === address) {
+    router.push('/admin')
+  }
 
   if (policeAccessDataLoading) {
     return (
@@ -88,7 +92,7 @@ export default function Home() {
   // }
 
   if (role === Role.POLICE) {
-    return <PoliceDashboard />
+    router.push('/police')
   } else {
     return <NotAuthorized />
   }

@@ -22,4 +22,13 @@
     .form-input {
         @apply col-span-3 font-normal focus:outline-none px-3 py-2 border border-gray-300 rounded-md;
     }
+    .officer-btn {
+        @apply px-3 py-1 text-[10px] rounded-md bg-[#191825] text-white font-semibold hover:bg-white hover:text-[#191825] hover:border-[#191825] border border-[#191825];
+    }
+    .add-officer-btn {
+        @apply px-3 py-1 text-sm rounded-md bg-[#191825] text-white font-semibold hover:bg-white hover:text-[#191825] hover:border-[#191825] border border-[#191825];
+    }
+    .permission-btn {
+        @apply px-3 py-1 text-sm rounded-md bg-[#191825] text-white font-semibold hover:bg-white hover:text-[#191825] hover:border-[#191825] border border-[#191825] !important;
+    }
 }
