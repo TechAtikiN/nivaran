@@ -13,6 +13,8 @@ import { Button } from '../ui/button'
 import { EllipsisHorizontalIcon } from '@heroicons/react/24/solid'
 import RegisterFIRForm from './RegisterFIRForm'
 import { useAddress, useContract, useOwnedNFTs } from '@thirdweb-dev/react'
+import Loading from '../globals/Loading'
+import UpdateFIRForm from './UpdateFIRForm'
 
 const FIRTable = () => {
   const [selectedStatus, setSelectedStatus] = useState('New')
@@ -22,32 +24,28 @@ const FIRTable = () => {
   const { contract: pendingFIRsCollection } = useContract(process.env.NEXT_PUBLIC_FIR_PENDING_CONTRACT_ADDRESS)
   const { contract: resolvedFIRsCollection } = useContract(process.env.NEXT_PUBLIC_FIR_RESOLVED_CONTRACT_ADDRESS)
 
-  const { data: newFIRsData } = useOwnedNFTs(newFIRsCollection, address)
+  const { data: newFIRsData, isLoading: newFIRsDataLoading } = useOwnedNFTs(newFIRsCollection, address)
   const { data: pendingCollectionData } = useOwnedNFTs(pendingFIRsCollection, address)
-  const { data: resolvedFIRsData } = useOwnedNFTs(newFIRsCollection, address)
+  const { data: resolvedFIRsData } = useOwnedNFTs(resolvedFIRsCollection, address)
 
   let newFIRsMetadata: FIR[] = []
   let pendingFIRsMetadata: FIR[] = []
   let resolvedFIRsMetadata: FIR[] = []
 
-  useEffect(() => {
-    const fetchTableData = async (newFIRs: any, pendingFIRs: any, resolvedFIRs: any) => {
-      newFIRsData?.map(async (fir: any) => {
-        const data = fir.metadata
-        newFIRsMetadata.push(data)
-      })
-      pendingCollectionData?.map(async (fir: any) => {
-        const data = fir.metadata
-        pendingFIRsMetadata.push(data)
-      })
-      resolvedFIRsData?.map(async (fir: any) => {
-        const data = fir.metadata
-        resolvedFIRsMetadata.push(data)
-      })
-    }
-    fetchTableData(newFIRsCollection, pendingFIRsCollection, resolvedFIRsCollection)
-    console.log(newFIRsMetadata, pendingFIRsMetadata, resolvedFIRsMetadata)
-  }, [])
+  if (newFIRsDataLoading) return <Loading />
+
+  newFIRsData?.map(async (fir: any) => {
+    const data = fir.metadata
+    newFIRsMetadata.push(data)
+  })
+  pendingCollectionData?.map(async (fir: any) => {
+    const data = fir.metadata
+    pendingFIRsMetadata.push(data)
+  })
+  resolvedFIRsData?.map(async (fir: any) => {
+    const data = fir.metadata
+    resolvedFIRsMetadata.push(data)
+  })
 
   return (
     <>
@@ -69,26 +67,41 @@ const FIRTable = () => {
               <th className='table-header rounded-tl-lg'>FIR ID.</th>
               <th className='table-header'>Victim Name</th>
               <th className='table-header'>Victim Contact</th>
-              <th className='table-header'>Date</th>
+              <th className='table-header'>Wallet Address</th>
               <th className='table-header'>Status</th>
               <th className='table-header rounded-tr-lg'>Actions</th>
             </tr>
           </thead>
+
           <tbody className=''>
             {(selectedStatus === 'New' ? newFIRsMetadata :
               selectedStatus === 'Pending' ? pendingFIRsMetadata :
-                resolvedFIRsMetadata).map((fir: any, index: number) => (
+                resolvedFIRsMetadata)?.map((fir, index: number) => (
                   <tr
                     key={fir.id}
                     className={`w-full hover:cursor-pointer ${index % 2 === 1 ? 'bg-sky-50' : 'bg-white'} text-sm border-b border-gray-300`}
                   >
-                    <td className='table-data'>{fir.id}</td>
-                    <td className='table-data text-sm'>
-                      <p>{fir.victimName}</p>
-                      <p className='text-xs'>{fir.victimEmail}</p>
+                    <td className='table-data'>
+                      {fir.properties.firId.slice(0, 6)}...{fir.properties.firId.slice(-6)}
                     </td>
-                    <td className='table-data'>{fir.phone}</td>
-                    <td className='table-data'>{fir.date}</td>
+                    <td className='table-data text-sm'>
+                      <p>{fir.properties.name}</p>
+                      <p className='text-xs'>{fir.properties.email}</p>
+                    </td>
+                    <td className='table-data'>{fir.properties.contact}</td>
+                    <td className='table-data'>
+                      {fir.properties.walletAddress.slice(0, 6)}...{fir.properties.walletAddress.slice(-6)}
+                    </td>
+                    <td className='table-data'>
+                      <span
+                        className={`px-2 py-1 rounded-full text-xs ${selectedStatus === 'Pending'
+                          ? 'bg-rose-100 text-rose-600'
+                          : selectedStatus === 'In-progress' ? 'bg-yellow-100 text-yellow-600' : 'bg-green-100 text-green-600'
+                          }`}
+                      >
+                        {selectedStatus}
+                      </span>
+                    </td>
                     <td className='table-data'>
                       <Dialog>
                         <DialogTrigger>
@@ -98,65 +111,14 @@ const FIRTable = () => {
                           <DialogHeader>
                             <DialogTitle>Update Status</DialogTitle>
                             <DialogDescription>
-                              Update the status of FIR with id {fir.id}
+                              <p className='font-semibold text-sky-700'>FIR ID: {fir.properties.firId}</p>
                             </DialogDescription>
-                            <div className='grid gap-4 py-4 text-sm'>
-                              <div className='grid grid-cols-4 items-center gap-4'>
-                                <label htmlFor='description'>
-                                  Description
-                                </label>
-                                <input
-                                  id='description'
-                                  className='form-input'
-                                />
-                              </div>
-                              <div className='grid grid-cols-4 items-center gap-4'>
-                                <label htmlFor='remark'>
-                                  Remark
-                                </label>
-                                <input
-                                  id='remark'
-                                  className='form-input'
-                                />
-                              </div>
-                              <div className='grid grid-cols-4 items-center gap-4'>
-                                <label htmlFor='documents'>
-                                  Documents
-                                </label>
-                                <input
-                                  id='documents'
-                                  type='file'
-                                  className='form-input'
-                                />
-                              </div>
-                              <div className='grid grid-cols-4 items-center gap-4'>
-                                <label htmlFor="">Update Status:</label>
-                                <select
-                                  name='role'
-                                  className='form-input'
-                                >
-                                  <option value='in-progress'>Pending</option>
-                                  <option value='completed'>Resolved</option>
-                                </select>
-                              </div>
-                            </div>
-                            <DialogFooter>
-                              <Button type='submit'>Update FIR</Button>
-                            </DialogFooter>
+                            <UpdateFIRForm fir={fir} />
                           </DialogHeader>
                         </DialogContent>
                       </Dialog>
                     </td>
-                    <td className='table-data'>
-                      <span
-                        className={`px-2 py-1 rounded-full text-xs ${fir.status === 'Pending'
-                          ? 'bg-rose-100 text-rose-600'
-                          : fir.status === 'In-progress' ? 'bg-yellow-100 text-yellow-600' : 'bg-green-100 text-green-600'
-                          }`}
-                      >
-                        {fir.status}
-                      </span>
-                    </td>
+
                   </tr>
                 ))}
           </tbody>

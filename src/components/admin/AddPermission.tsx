@@ -1,8 +1,5 @@
 import { DialogContent, DialogDescription, DialogFooter, DialogHeader, DialogTitle } from '../ui/dialog'
-import { Button } from '../ui/button'
-import { BaseContractInterface, SmartContract, Web3Button, useContract, useGrantRole, useIsAddressRole } from '@thirdweb-dev/react'
-import { useEffect } from 'react'
-import toast from 'react-hot-toast'
+import { Web3Button, useContract, useGrantRole, useIsAddressRole } from '@thirdweb-dev/react'
 
 interface Props {
   walletAddress: string
@@ -18,6 +15,10 @@ const AddPermission = ({ walletAddress }: Props) => {
   const hasAccessToCreateFIR = useIsAddressRole(createdFIRCollection, roleName, walletAddress)
   const hasAccessToUpdateFIR = useIsAddressRole(pendingFIRCollection, roleName, walletAddress)
   const hasAccessToResolveFIR = useIsAddressRole(resolvedFIRCollection, roleName, walletAddress)
+
+  const { mutateAsync: grantRoleToNewFIRCollection } = useGrantRole(createdFIRCollection)
+  const { mutateAsync: grantRoleToPendingFIRCollection } = useGrantRole(pendingFIRCollection)
+  const { mutateAsync: grantRoleToResolvedFIRCollection } = useGrantRole(resolvedFIRCollection)
 
   const collectionOfFIRs = [
     {
@@ -36,8 +37,6 @@ const AddPermission = ({ walletAddress }: Props) => {
       hasAccess: hasAccessToResolveFIR
     }
   ]
-
-  const { mutateAsync: grantRole, error } = useGrantRole(createdFIRCollection)
 
   return (
     <>
@@ -64,13 +63,21 @@ const AddPermission = ({ walletAddress }: Props) => {
                   className='permission-btn'
                   contractAddress={contract.contract as string}
                   action={() => {
-                    try {
-                      grantRole({
-                        role: 'minter',
-                        address: walletAddress || '',
+                    if (contract.contract === process.env.NEXT_PUBLIC_FIR_CREATED_CONTRACT_ADDRESS) {
+                      grantRoleToNewFIRCollection({
+                        address: walletAddress,
+                        role: roleName
                       })
-                    } catch (error) {
-                      console.log('error', error)
+                    } else if (contract.contract === process.env.NEXT_PUBLIC_FIR_PENDING_CONTRACT_ADDRESS) {
+                      grantRoleToPendingFIRCollection({
+                        address: walletAddress,
+                        role: roleName
+                      })
+                    } else {
+                      grantRoleToResolvedFIRCollection({
+                        address: walletAddress,
+                        role: roleName
+                      })
                     }
                   }}
                 >

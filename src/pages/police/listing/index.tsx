@@ -9,14 +9,10 @@ import { NFT, useAccountsForAddress, useAddress, useContract, useOwnedNFTs } fro
 import { useEffect, useState } from 'react'
 
 const FIRListing = () => {
-  const [role, userAddress, setRole] = userUserStore(state => [state.role, state.userAddress, state.setRole])
-  const isAuthenicated = useAuth(process.env.NEXT_PUBLIC_POLICE_NFT_CONTRACT_ADDRESS!, userAddress)
   const address = useAddress()
 
   const { contract: newFIRsCollection } = useContract(process.env.NEXT_PUBLIC_FIR_CREATED_CONTRACT_ADDRESS)
   const [newFIRs, setNewFIRs] = useState<NFT[]>([])
-  const { data } = useOwnedNFTs(newFIRsCollection, '0x54dEBFf7Cd28bc52f95CA03B5B6ca4C4C313DF16')
-  console.log('nfts', data)
 
   useEffect(() => {
     const fetchNFTs = async () => {
@@ -31,9 +27,6 @@ const FIRListing = () => {
     fetchNFTs()
   }, [newFIRsCollection])
 
-  console.log(newFIRs)
-
-  if (!isAuthenicated) return <NotAuthorized />
   return (
     <DashboardLayout>
       <div className='p-4'>

@@ -41,11 +41,13 @@ export default function Home() {
     router.push('/admin')
   }
 
-  if (role === Role.POLICE) {
-    router.push('/police')
-  } else if (policeAccessDataLoading) {
-    return <Loading />
-  } else {
+  if (role === Role.NULL) {
     return <NotAuthorized />
-  }
+  } else
+
+    if (role === Role.POLICE) {
+      router.push('/police')
+    } else if (policeAccessDataLoading) {
+      return <Loading />
+    }
 }

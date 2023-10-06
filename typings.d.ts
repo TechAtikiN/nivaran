@@ -17,6 +17,11 @@ type FIRProperties = {
     contact: string;
     email: string;
     documents: FileList;
+    walletAddress: string;
+    location: string;
+    time: string;
+    date: string;
+    firId: string;
 };
 
 type OfficerMetadata = {
