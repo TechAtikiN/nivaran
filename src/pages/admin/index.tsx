@@ -1,7 +1,7 @@
 import { useRouter } from 'next/router'
-import AdminDashboard from '@/components/admin/AdminDashboard'
 import { useAddress } from '@thirdweb-dev/react'
 import { useEffect } from 'react'
+import AdminDashboard from '@/components/admin/AdminDashboard'
 
 const AdminView = () => {
   const address = useAddress()

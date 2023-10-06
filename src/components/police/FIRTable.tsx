@@ -10,9 +10,8 @@ import {
   DialogTrigger
 } from '../ui/dialog'
 import { Button } from '../ui/button'
-import RegisterFIRForm from './RegisterFIRForm'
-import { EllipsisVerticalIcon } from '@heroicons/react/20/solid'
 import { EllipsisHorizontalIcon } from '@heroicons/react/24/solid'
+import RegisterFIRForm from './RegisterFIRForm'
 
 const FIRTable = () => {
   const [selectedStatus, setSelectedStatus] = useState('Pending')
@@ -25,7 +24,7 @@ const FIRTable = () => {
       victimName: 'John Doe',
       victimEmail: 'johndoe@gmail.com',
       phone: '1234567890',
-      status: 'Pending'
+      status: 'New'
     },
     {
       id: 2,
@@ -34,7 +33,7 @@ const FIRTable = () => {
       victimName: 'Adam Smith',
       victimEmail: 'adam@gmail.com',
       phone: '1234567890',
-      status: 'Pending'
+      status: 'New'
     },
     {
       id: 3,
@@ -43,7 +42,7 @@ const FIRTable = () => {
       victimName: 'Christian Bale',
       victimEmail: 'bale@gmail.com',
       phone: '1234567890',
-      status: 'Pending'
+      status: 'New'
     }
   ]
 
@@ -53,9 +52,9 @@ const FIRTable = () => {
 
         <div className='my-3 flex justify-between items-center'>
           <div className='border border-gray-200 rounded-md p-2'>
-            <button onClick={() => setSelectedStatus('Pending')} className={`badge-btn ${selectedStatus === 'Pending' ? 'bg-sky-100' : 'bg-white'}`}>Pending</button>
-            <button onClick={() => setSelectedStatus('In-progress')} className={`badge-btn ${selectedStatus === 'In-progress' ? 'bg-sky-100' : 'bg-white'}`}>In progress</button>
-            <button onClick={() => setSelectedStatus('Completed')} className={`badge-btn ${selectedStatus === 'Completed' ? 'bg-sky-100' : 'bg-white'}`}>Completed</button>
+            <button onClick={() => setSelectedStatus('New')} className={`badge-btn ${selectedStatus === 'Pending' ? 'bg-sky-100' : 'bg-white'}`}>New</button>
+            <button onClick={() => setSelectedStatus('In-progress')} className={`badge-btn ${selectedStatus === 'In-progress' ? 'bg-sky-100' : 'bg-white'}`}>Pending</button>
+            <button onClick={() => setSelectedStatus('Completed')} className={`badge-btn ${selectedStatus === 'Completed' ? 'bg-sky-100' : 'bg-white'}`}>Resolved</button>
           </div>
           <RegisterFIRForm />
 
@@ -131,8 +130,8 @@ const FIRTable = () => {
                               name='role'
                               className='form-input'
                             >
-                              <option value='in-progress'>In progress</option>
-                              <option value='completed'>Completed</option>
+                              <option value='in-progress'>Pending</option>
+                              <option value='completed'>Resolved</option>
                             </select>
                           </div>
                         </div>

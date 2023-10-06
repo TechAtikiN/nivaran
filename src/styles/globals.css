@@ -26,9 +26,12 @@
         @apply px-3 py-1 text-[10px] rounded-md bg-[#191825] text-white font-semibold hover:bg-white hover:text-[#191825] hover:border-[#191825] border border-[#191825];
     }
     .add-officer-btn {
-        @apply px-3 py-1 text-sm rounded-md bg-[#191825] text-white font-semibold hover:bg-white hover:text-[#191825] hover:border-[#191825] border border-[#191825];
+        @apply px-3 py-1 text-[10px] rounded-md bg-[#191825] text-white font-semibold hover:bg-white hover:text-[#191825] hover:border-[#191825] border border-[#191825];
     }
     .permission-btn {
-        @apply px-3 py-1 text-sm rounded-md bg-[#191825] text-white font-semibold hover:bg-white hover:text-[#191825] hover:border-[#191825] border border-[#191825] !important;
+        @apply p-1 text-sm !important;
+    }
+    .form-label {
+        @apply font-semibold;
     }
 }

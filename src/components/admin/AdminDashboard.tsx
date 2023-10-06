@@ -1,17 +1,17 @@
 // named imports
 import { AddOfficerForm } from '@/components/admin/AddOfficerForm'
-import { NFT, contractType, useContract } from '@thirdweb-dev/react'
+import { NFT, useContract } from '@thirdweb-dev/react'
 import { useEffect, useState } from 'react'
 // default imports
 import DashboardLayout from '@/components/globals/DashboardLayout'
 import OfficerListing from '@/components/admin/OfficerListing'
 
 const AdminDashboard = () => {
-  const { contract: policeCollection } = useContract(process.env.NEXT_PUBLIC_POLICE_NFT_CONTRACT_ADDRESS)
+  const { contract: policeCollection, isLoading: policeCollectionLoading } = useContract(process.env.NEXT_PUBLIC_POLICE_NFT_CONTRACT_ADDRESS)
+
   let [policeOfficers, setPoliceOfficers] = useState<NFT[]>([])
 
   useEffect(() => {
-
     const fetchNFTs = async () => {
       try {
         const nftsData: NFT[] | undefined =

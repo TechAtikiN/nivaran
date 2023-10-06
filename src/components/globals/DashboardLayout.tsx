@@ -1,3 +1,5 @@
+// named imports
+import { Toaster } from 'react-hot-toast'
 // default imports
 import Sidebar from './Sidebar'
 
@@ -11,6 +13,7 @@ const DashboardLayout = ({ children }: {
       </section>
 
       <main className='flex flex-col w-full'>
+        <Toaster />
         {children}
       </main>
     </div>

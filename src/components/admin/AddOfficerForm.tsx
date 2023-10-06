@@ -27,7 +27,6 @@ export function AddOfficerForm() {
 
   const { register, handleSubmit } = useForm<FormValues>()
 
-
   const onSubmit = handleSubmit(async (data) => {
     const policeMetadata = {
       name: data.name,
