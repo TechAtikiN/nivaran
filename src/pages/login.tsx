@@ -1,11 +1,11 @@
 // named imports
-import { ConnectWallet, useAddress, useContract } from '@thirdweb-dev/react'
+import { useEffect } from 'react'
+import { useRouter } from 'next/navigation'
+import { ConnectWallet, useAddress } from '@thirdweb-dev/react'
 import { ArrowUpRightIcon } from '@heroicons/react/24/solid'
 import { userUserStore } from '@/store/useUserStore'
-import { useRouter } from 'next/navigation'
 // default imports
 import Image from 'next/image'
-import { useEffect } from 'react'
 
 enum Role {
   POLICE = 'Police',
@@ -16,6 +16,7 @@ enum Role {
 const Login = () => {
   const router = useRouter()
   const address = useAddress()
+  console.log(address)
 
   const [role, setRole, userAddress, setUserAddress] = userUserStore( // user state from zustand store
     (state) => [state.role, state.setRole, state.userAddress, state.setUserAddress]

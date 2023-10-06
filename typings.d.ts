@@ -5,13 +5,18 @@ enum Role {
 }
 
 type FIR = {
-    id: number;
+    id: string;
+    FIRname: string;
+    image: string;
+    properties: FIRProperties;
+};
+
+type FIRProperties = {
+    name: string;
     description: string;
-    status: string;
-    victimName: string;
-    victimEmail: string;
-    phone: string;
-    date: string;
+    contact: string;
+    email: string;
+    documents: FileList;
 };
 
 type OfficerMetadata = {
@@ -19,15 +24,7 @@ type OfficerMetadata = {
     id: string;
     image: string;
     name: string;
-    properties: {
-        id: string;
-        walletAddress: string;
-        name: string;
-        email: string;
-        contact: string;
-        location: string;
-        idCard: FileList;
-    };
+    properties: Officer;
 };
 
 type Officer = {

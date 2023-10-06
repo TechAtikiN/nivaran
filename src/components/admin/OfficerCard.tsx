@@ -1,12 +1,11 @@
 // named imports
 import { Web3Button, useContract, useGrantRole } from "@thirdweb-dev/react";
+import { Dialog, DialogContent, DialogTrigger } from "../ui/dialog";
 // default imports
 import React from "react";
 import Image from "next/image";
 import Link from "next/link";
 import AddPermission from "./AddPermission";
-import { Dialog, DialogContent, DialogTrigger } from "../ui/dialog";
-import { EllipsisHorizontalIcon } from "@heroicons/react/24/solid";
 
 interface OfficerProps {
   officer: OfficerMetadata

@@ -2,7 +2,7 @@ import { ClipboardDocumentCheckIcon, DocumentPlusIcon, Squares2X2Icon, UserIcon 
 export const adminNavLinks = [
     {
         name: "Police Listing",
-        path: "/",
+        path: "/admin",
         icon: <Squares2X2Icon />
     },
     {

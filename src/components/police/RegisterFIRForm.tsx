@@ -12,6 +12,7 @@ import {
   SheetTrigger
 } from '../ui/sheet'
 import { useForm } from 'react-hook-form'
+import toast from 'react-hot-toast'
 
 type FormValues = {
   name: string
@@ -33,7 +34,7 @@ const RegisterFIRForm = () => {
 
   const onSubmit = handleSubmit(async (data) => {
     const firMetadata = {
-      name: data.name,
+      name: `Filing for ${data.name}`,
       description: 'NEW FIR',
       image: FIR_THUMBNAIL,
       properties: {
@@ -44,12 +45,12 @@ const RegisterFIRForm = () => {
     console.log('firMetadata', firMetadata)
 
     try {
-      console.log('minting FIR')
+      toast.loading('Creating FIR')
       await mintNft({
         to: data.walletAddress,
         metadata: firMetadata,
       })
-      alert('done minting FIR')
+      toast.success('FIR created successfully')
     } catch (error) {
       alert('Error minting FIR')
       console.log('error', error)

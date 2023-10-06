@@ -2,6 +2,7 @@ import { DialogContent, DialogDescription, DialogFooter, DialogHeader, DialogTit
 import { Button } from '../ui/button'
 import { BaseContractInterface, SmartContract, Web3Button, useContract, useGrantRole, useIsAddressRole } from '@thirdweb-dev/react'
 import { useEffect } from 'react'
+import toast from 'react-hot-toast'
 
 interface Props {
   walletAddress: string
@@ -38,7 +39,6 @@ const AddPermission = ({ walletAddress }: Props) => {
 
   const { mutateAsync: grantRole, error } = useGrantRole(createdFIRCollection)
 
-
   return (
     <>
       <DialogContent>
@@ -51,7 +51,6 @@ const AddPermission = ({ walletAddress }: Props) => {
         <h2 className='font-bold text-xl text-center -mt-4'>Give Access for</h2>
         <div className='mx-auto flex flex-col space-y-3 text-sm'>
 
-
           {collectionOfFIRs.map((contract, index) => (
             <div
               key={index}
@@ -59,7 +58,7 @@ const AddPermission = ({ walletAddress }: Props) => {
               <label htmlFor='description' className='form-label'>
                 {contract.label}
               </label>
-              {contract.hasAccess ? <p className='px-3 py-2'>User already has access</p> :
+              {!contract.hasAccess ?
                 <Web3Button
                   theme={'light'}
                   className='permission-btn'
@@ -70,87 +69,18 @@ const AddPermission = ({ walletAddress }: Props) => {
                         role: 'minter',
                         address: walletAddress || '',
                       })
-                      alert('Role granted')
                     } catch (error) {
                       console.log('error', error)
                     }
                   }}
                 >
                   Grant Role
-                </Web3Button>
+                </Web3Button> : (
+                  <p className='px-3 py-2'>User already has access</p>
+                )
               }
             </div>
           ))}
-
-          {/* {isMember ? <p className='px-3 py-2'>User already has access</p> :
-              <Web3Button
-                className='permission-btn'
-                contractAddress={process.env.NEXT_PUBLIC_FIR_CREATED_CONTRACT_ADDRESS as string}
-                action={() => {
-                  try {
-                    grantRole({
-                      role: 'minter',
-                      address: walletAddress || '',
-                    })
-                    alert('Role granted')
-                  } catch (error) {
-                    console.log('error', error)
-                  }
-                }}
-              >
-                Grant Role
-              </Web3Button>
-            }
-          </div>
-
-          <div className='grid grid-cols-2 gap-4'>
-            <label htmlFor='description' className='form-label'>
-              Update Status to pending
-            </label>
-            {isMember ? <p className='px-3 py-2'>User already has access</p> :
-              <Web3Button
-                className='permission-btn'
-                contractAddress={process.env.NEXT_PUBLIC_FIR_CREATED_CONTRACT_ADDRESS as string}
-                action={() => {
-                  try {
-                    grantRole({
-                      role: 'minter',
-                      address: walletAddress || '',
-                    })
-                    alert('Role granted')
-                  } catch (error) {
-                    console.log('error', error)
-                  }
-                }}
-              >
-                Grant Role
-              </Web3Button>
-            }
-          </div>
-
-          <div className='grid grid-cols-2 gap-4'>
-            <label htmlFor='description' className='form-label'>
-              Update Status to resolved
-            </label>
-            {isMember ? <p className='px-3 py-2'>User already has access</p> :
-              <Web3Button
-                className='permission-btn'
-                contractAddress={process.env.NEXT_PUBLIC_FIR_CREATED_CONTRACT_ADDRESS as string}
-                action={() => {
-                  try {
-                    grantRole({
-                      role: 'minter',
-                      address: walletAddress || '',
-                    })
-                    alert('Role granted')
-                  } catch (error) {
-                    console.log('error', error)
-                  }
-                }}
-              >
-                Grant Role
-              </Web3Button>
-            } */}
         </div>
       </DialogContent>
     </>
