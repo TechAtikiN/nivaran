@@ -1,11 +1,12 @@
-import { useAddress, useContract, useMintNFT } from "@thirdweb-dev/react"
-import { useForm } from "react-hook-form"
-import toast from "react-hot-toast"
-import { DialogFooter } from "../ui/dialog"
-import { Button } from "../ui/button"
+import { useAddress, useContract, useMintNFT, useOwnedNFTs } from '@thirdweb-dev/react'
+import { useForm } from 'react-hook-form'
+import { DialogFooter } from '../ui/dialog'
+import { Button } from '../ui/button'
+import toast from 'react-hot-toast'
 
 interface Props {
   fir: FIR
+  selectedStatus: string
 }
 
 type FormValues = {
@@ -17,16 +18,32 @@ type FormValues = {
 
 const FIR_THUMBNAIL = 'https://e-gmat.com/blogs/wp-content/uploads/2021/04/f1-visa-documents.jpg'
 
-const UpdateFIRForm = ({ fir }: Props) => {
+const UpdateFIRForm = ({ fir, selectedStatus }: Props) => {
   const address = useAddress()
   const { contract: pendingFIRCollection } = useContract(process.env.NEXT_PUBLIC_FIR_PENDING_CONTRACT_ADDRESS)
   const { contract: resolvedFIRCollection } = useContract(process.env.NEXT_PUBLIC_FIR_RESOLVED_CONTRACT_ADDRESS)
 
-  const { mutateAsync: mintPendingNft, isLoading: isMintingPendingNFT, isError } = useMintNFT(pendingFIRCollection)
-  const { mutateAsync: mintResolvedNft, isLoading: isMintingResolvedNFT } = useMintNFT(resolvedFIRCollection)
+  const { mutateAsync: mintPendingNft } = useMintNFT(pendingFIRCollection)
+  const { mutateAsync: mintResolvedNft } = useMintNFT(resolvedFIRCollection)
 
-  const { register, handleSubmit } = useForm<FormValues>()
+  const { data: pendingFIRsData } = useOwnedNFTs(pendingFIRCollection, address)
+  const { data: resolvedFIRsData } = useOwnedNFTs(resolvedFIRCollection, address)
 
+  let pendingFIRsMetadata: FIR[] = []
+  let resolvedFIRsMetadata: FIR[] = []
+
+  pendingFIRsData?.map(async (fir: any) => {
+    const data = fir.metadata
+    pendingFIRsMetadata.push(data)
+  })
+  resolvedFIRsData?.map(async (fir: any) => {
+    const data = fir.metadata
+    resolvedFIRsMetadata.push(data)
+  })
+
+  console.log(pendingFIRsMetadata, resolvedFIRsMetadata)
+
+  const { register, handleSubmit, formState: { errors } } = useForm<FormValues>()
 
   const onSubmit = handleSubmit(async (data) => {
 
@@ -42,8 +59,16 @@ const UpdateFIRForm = ({ fir }: Props) => {
       }
     }
 
+    // check if the FIR with the same FIR number already exists, check from the data object and the pendingFIRsMetadata and resolvedFIRsMetadata
+    const alreadyExistsInPending = pendingFIRsMetadata.find((fir: FIR) => fir.properties.firId === firMetadata.properties.firId) ? true : false
+    const alreadyExistsInResolved = resolvedFIRsMetadata.find((fir: FIR) => fir.properties.firId === firMetadata.properties.firId) ? true : false
+
     try {
       if (data.status === 'Pending') {
+        if (alreadyExistsInPending) {
+          toast.error('FIR already exists in pending')
+          return
+        }
         toast.loading('Changing FIR status to pending')
         await mintPendingNft({
           to: address || '',
@@ -52,6 +77,10 @@ const UpdateFIRForm = ({ fir }: Props) => {
         toast.dismiss()
         toast.success('FIR status changed to pending')
       } else {
+        if (alreadyExistsInResolved) {
+          toast.error('FIR is already resolved')
+          return
+        }
         toast.loading('Changing FIR status to resolved')
         await mintResolvedNft({
           to: address || '',
@@ -74,11 +103,12 @@ const UpdateFIRForm = ({ fir }: Props) => {
             Remark
           </label>
           <input
-            {...register('remark')}
+            {...register('remark', { required: true })}
             id='remark'
             className='form-input'
           />
         </div>
+        {errors.remark && <p className='text-red-500 -my-3'>Remark is required</p>}
         <div className='grid grid-cols-4 items-center gap-4'>
           <label htmlFor='documents'>
             Documents
@@ -91,12 +121,12 @@ const UpdateFIRForm = ({ fir }: Props) => {
           />
         </div>
         <div className='grid grid-cols-4 items-center gap-4'>
-          <label htmlFor="">Update Status:</label>
+          <label htmlFor=''>Update Status:</label>
           <select
             className='form-input'
             {...register('status')}
           >
-            <option value='Pending'>Pending</option>
+            {selectedStatus === 'New' && <option value='Pending'>Pending</option>}
             <option value='Resolved'>Resolved</option>
           </select>
         </div>

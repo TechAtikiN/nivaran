@@ -26,12 +26,13 @@ export default function Home() {
   const { contract: policeCollection } = useContract(process.env.NEXT_PUBLIC_POLICE_NFT_CONTRACT_ADDRESS)
   const { data: policeAccessNFTs, isLoading: policeAccessDataLoading } = useOwnedNFTs(policeCollection, address)
 
-  // if (role === Role.NULL) {
-  //   router.push('/login')
-  // }
 
   // set role based on address
   useEffect(() => {
+    if (address === undefined) {
+      router.push('/login')
+    }
+
     if (process.env.NEXT_PUBLIC_ADMIN_WALLET_ADDRESS === address) {
       setRole(Role.ADMIN)
     } else if (policeAccessNFTs && policeAccessNFTs?.length > 0) {
@@ -42,8 +43,8 @@ export default function Home() {
 
   }, [address, policeAccessNFTs])
 
-  // if data is loading, show loading component
-  if (policeAccessDataLoading || address === null) {
+
+  if (policeAccessDataLoading) {
     return <Loading />
   }
 

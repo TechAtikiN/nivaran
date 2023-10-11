@@ -28,7 +28,7 @@ const FIRTable = () => {
 
   // loading NFTs
   const { data: newFIRsData, isLoading: newFIRsDataLoading } = useOwnedNFTs(newFIRsCollection, address)
-  const { data: pendingCollectionData, isLoading: pendingFIRsDataLoading } = useOwnedNFTs(pendingFIRsCollection, address)
+  const { data: pendingFIRsData, isLoading: pendingFIRsDataLoading } = useOwnedNFTs(pendingFIRsCollection, address)
   const { data: resolvedFIRsData, isLoading: resolvedFIRsDataLoading } = useOwnedNFTs(resolvedFIRsCollection, address)
 
   let newFIRsMetadata: FIR[] = []
@@ -43,7 +43,7 @@ const FIRTable = () => {
     const data = fir.metadata
     newFIRsMetadata.push(data)
   })
-  pendingCollectionData?.map(async (fir: any) => {
+  pendingFIRsData?.map(async (fir: any) => {
     const data = fir.metadata
     pendingFIRsMetadata.push(data)
   })
@@ -137,7 +137,9 @@ const FIRTable = () => {
 
                           <Dialog>
                             <DialogTrigger className='hover:bg-gray-100 text-left p-1 text-sm rounded-md'>
-                              <p>Update Status</p>
+                              {selectedStatus !== 'Resolved' && (
+                                <p>Update Status</p>
+                              )}
                             </DialogTrigger>
                             <DialogContent>
                               <DialogHeader className='bg-slate-950 text-white rounded-md p-2 m-1'>
@@ -149,7 +151,7 @@ const FIRTable = () => {
                                   </p>
                                 </DialogDescription>
                               </DialogHeader>
-                              <UpdateFIRForm fir={fir} />
+                              <UpdateFIRForm selectedStatus={selectedStatus} fir={fir} />
                             </DialogContent>
                           </Dialog>
 

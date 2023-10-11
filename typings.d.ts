@@ -23,6 +23,7 @@ type FIRProperties = {
     time: string;
     date: string;
     firId: string;
+    remark: string;
 };
 
 type OfficerMetadata = {

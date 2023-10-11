@@ -1,12 +1,15 @@
-import { useContract, useNFTs } from '@thirdweb-dev/react'
-import { useState } from 'react'
+import { useAddress, useContract, useNFTs } from '@thirdweb-dev/react'
+import { useEffect, useState } from 'react'
 import DashboardLayout from '@/components/globals/DashboardLayout'
 import Loading from '@/components/globals/Loading'
 import { EllipsisHorizontalIcon } from '@heroicons/react/24/outline'
 import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle, DialogTrigger } from '@/components/ui/dialog'
 import FIRDetail from '@/components/globals/FIRDetail'
+import { useRouter } from 'next/navigation'
 
 const FIRListing = () => {
+  const address = useAddress()
+  const router = useRouter()
   const [selectedStatus, setSelectedStatus] = useState('New')
 
   // loading contracts
@@ -22,6 +25,13 @@ const FIRListing = () => {
   let newFIRsMetadata: FIR[] = []
   let pendingFIRsMetadata: FIR[] = []
   let resolvedFIRsMetadata: FIR[] = []
+
+  useEffect(() => {
+    if (process.env.NEXT_PUBLIC_ADMIN_WALLET_ADDRESS !== address) {
+      router.push('/login')
+    }
+  }, [address])
+
 
   if (newFIRsDataLoading || pendingFIRsDataLoading || resolvedFIRsDataLoading)
     return <Loading />
@@ -57,7 +67,6 @@ const FIRListing = () => {
             <button onClick={() => setSelectedStatus('Pending')} className={`badge-btn ${selectedStatus === 'Pending' ? 'bg-sky-100' : 'bg-white'}`}>Pending</button>
             <button onClick={() => setSelectedStatus('Resolved')} className={`badge-btn ${selectedStatus === 'Resolved' ? 'bg-sky-100' : 'bg-white'}`}>Resolved</button>
           </div>
-
 
           <table className='w-full mt-7'>
             <thead className='w-full border-b border-gray-300'>

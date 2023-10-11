@@ -1,6 +1,6 @@
-import { ArrowDownTrayIcon, ArrowPathIcon, CheckBadgeIcon, FolderPlusIcon, PresentationChartLineIcon } from "@heroicons/react/24/solid"
-import Link from "next/link"
-import { useState } from "react"
+import { useState } from 'react'
+import { ArrowDownTrayIcon, CheckBadgeIcon, FolderPlusIcon, PresentationChartLineIcon } from '@heroicons/react/24/solid'
+import Link from 'next/link'
 
 interface Props {
   fir: FIR
@@ -59,24 +59,25 @@ const FIRDetail = ({ fir, newFIRsMetadata, pendingFIRsMetadata, resolvedFIRsMeta
       </div>
 
       <div className=''>
-        <h2 className="text-lg text-center mt-3 underline font-semibold">Status of FIR</h2>
+        <h2 className='text-lg text-center mt-3 underline font-semibold'>Status of FIR</h2>
         <ol className='relative m-6 dark:border-gray-700'>
           {firData.map((fir, index: number) => (
             <li
               key={index}
               className={`pb-10 border-l border-gray-200 last:border-none`}>
               <span className='absolute flex items-center justify-center w-6 h-6 -left-3'>
-                {fir.properties.status === 'New' ? <FolderPlusIcon className="text-sky-400" /> :
-                  fir.properties.status === 'Pending' ? <PresentationChartLineIcon className="text-sky-400" /> :
-                    fir.properties.status === 'Resolved' ? <CheckBadgeIcon className="text-sky-400" /> : null}
+                {fir.properties.status === 'New' ? <FolderPlusIcon className='text-sky-400' /> :
+                  fir.properties.status === 'Pending' ? <PresentationChartLineIcon className='text-sky-400' /> :
+                    fir.properties.status === 'Resolved' ? <CheckBadgeIcon className='text-sky-400' /> : null}
               </span>
 
               <div className='ml-6'>
                 <h3 className='flex items-center mb-1 text-lg font-semibold text-gray-900'>
                   {fir.properties.status}
                 </h3>
+                <p className='text-xs'>Remark: <span className='font-semibold'>{fir.properties.remark}</span></p>
 
-                <p className='mb-4 text-sm text-gray-500'>
+                <p className='text-sm mb-4 text-gray-500'>
                   <span className={`${showDescription ? 'max-h-full' : 'max-h-14'} block overflow-hidden transition-all duration-500 ease-in-out`}>
                     {fir.properties.description}
                   </span>
@@ -92,7 +93,8 @@ const FIRDetail = ({ fir, newFIRsMetadata, pendingFIRsMetadata, resolvedFIRsMeta
                   className='inline-flex items-center px-4 py-2 text-sm font-medium text-gray-900 bg-white border border-gray-200 rounded-lg hover:bg-gray-100 hover:text-sky-700'
                 >
                   <ArrowDownTrayIcon className='h-4 w-4 mr-2' />
-                  Documents</Link>
+                  Documents
+                </Link>
               </div>
             </li>
           ))}
