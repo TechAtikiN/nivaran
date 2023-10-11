@@ -1,13 +1,14 @@
 import NotAuthorized from '@/components/globals/NotAuthorized'
 import PoliceDashboard from '@/components/police/PoliceDashboard'
+import { useAuth } from '@/hooks/useAuth'
 import { userUserStore } from '@/store/useUserStore'
+import { useAddress } from '@thirdweb-dev/react'
 
 const PoliceView = () => {
-  const [role] = userUserStore(state => [state.role])
+  const address = useAddress()
+  const isAuthenicated = useAuth(process.env.NEXT_PUBLIC_POLICE_NFT_CONTRACT_ADDRESS!, address!)
 
-  if (role !== 'Police') {
-    return <NotAuthorized />
-  }
+  if (!isAuthenicated) return <NotAuthorized />
 
   return (
     <>

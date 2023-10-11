@@ -1,15 +1,15 @@
 // named imports
-import { useAuth } from '@/hooks/useAuth'
-import { userUserStore } from '@/store/useUserStore'
+import { useEffect, useState } from 'react'
+import { NFT, useAddress, useContract } from '@thirdweb-dev/react'
 // default imports
 import DashboardLayout from '@/components/globals/DashboardLayout'
 import FIRTable from '@/components/police/FIRTable'
+import { useAuth } from '@/hooks/useAuth'
 import NotAuthorized from '@/components/globals/NotAuthorized'
-import { NFT, useAccountsForAddress, useAddress, useContract, useOwnedNFTs } from '@thirdweb-dev/react'
-import { useEffect, useState } from 'react'
 
 const FIRListing = () => {
   const address = useAddress()
+  const isAuthenicated = useAuth(process.env.NEXT_PUBLIC_POLICE_NFT_CONTRACT_ADDRESS!, address!)
 
   const { contract: newFIRsCollection } = useContract(process.env.NEXT_PUBLIC_FIR_CREATED_CONTRACT_ADDRESS)
   const [newFIRs, setNewFIRs] = useState<NFT[]>([])
@@ -26,6 +26,8 @@ const FIRListing = () => {
     };
     fetchNFTs()
   }, [newFIRsCollection])
+
+  if (!isAuthenicated) return <NotAuthorized />
 
   return (
     <DashboardLayout>

@@ -8,8 +8,8 @@ import Loading from '../globals/Loading'
 
 const AdminDashboard = () => {
   const [loading, setLoading] = useState(false)
-  const { contract: policeCollection, isLoading: policeCollectionLoading } = useContract(process.env.NEXT_PUBLIC_POLICE_NFT_CONTRACT_ADDRESS)
   let [policeOfficers, setPoliceOfficers] = useState<NFT[]>([])
+  const { contract: policeCollection, isLoading: policeCollectionLoading } = useContract(process.env.NEXT_PUBLIC_POLICE_NFT_CONTRACT_ADDRESS)
 
   useEffect(() => {
     const fetchNFTs = async () => {

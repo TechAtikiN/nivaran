@@ -18,17 +18,17 @@ const OfficerCard: React.FC<OfficerProps> = ({ officer, image }) => {
   return (
     <div className="bg-white rounded-lg h-[300px] w-[250px] shadow-md p-5 mx-auto border border-gray-100">
       <Image
-        width={100}
-        height={100}
+        width={80}
+        height={80}
         src={image}
-        className="rounded-full w-32 h-32 mx-auto hover:scale-110 transition duration-300 ease-in-out cursor-pointer"
+        className="rounded-full w-28 h-28 mx-auto hover:scale-110 transition duration-300 ease-in-out cursor-pointer"
         alt={`${officer.properties.name}'s profile`}
       />
       <div className="mt-4 text-center">
         <p className="text-lg font-semibold">{officer.properties.name}</p>
         <p className="text-gray-500 text-xs">{officer.properties.email}</p>
         <p className="text-gray-500 text-xs">{officer.properties.contact}</p>
-        <Link target='_blank' href={idCard} className='text-xs p-1 hover:underline'>View ID Card</Link>
+        <Link target='_blank' href={idCard} className='text-xs underline text-sky-700 font-bold p-1 hover:underline'>View ID Card</Link>
         <div className="flex items-center justify-center gap-2 mt-2 ">
 
           <Dialog>

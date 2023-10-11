@@ -13,7 +13,6 @@ const ProfilePage = () => {
     <DashboardLayout>
       <div className='p-4'>
         <h2 className='dashboard-heading'>Police Profile</h2>
-
       </div>
     </DashboardLayout>
   )

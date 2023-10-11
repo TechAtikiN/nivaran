@@ -1,39 +1,41 @@
 // named imports
-import { useEffect, useState } from 'react'
+import { useState } from 'react'
 import {
   Dialog,
   DialogContent,
   DialogDescription,
-  DialogFooter,
   DialogHeader,
   DialogTitle,
   DialogTrigger
 } from '../ui/dialog'
-import { Button } from '../ui/button'
+import { useAddress, useContract, useOwnedNFTs } from '@thirdweb-dev/react'
 import { EllipsisHorizontalIcon } from '@heroicons/react/24/solid'
 import RegisterFIRForm from './RegisterFIRForm'
-import { useAddress, useContract, useOwnedNFTs } from '@thirdweb-dev/react'
 import Loading from '../globals/Loading'
 import UpdateFIRForm from './UpdateFIRForm'
 
 const FIRTable = () => {
-  const [selectedStatus, setSelectedStatus] = useState('New')
   const address = useAddress()
+  const [selectedStatus, setSelectedStatus] = useState('New')
 
+  // loading contracts
   const { contract: newFIRsCollection } = useContract(process.env.NEXT_PUBLIC_FIR_CREATED_CONTRACT_ADDRESS)
   const { contract: pendingFIRsCollection } = useContract(process.env.NEXT_PUBLIC_FIR_PENDING_CONTRACT_ADDRESS)
   const { contract: resolvedFIRsCollection } = useContract(process.env.NEXT_PUBLIC_FIR_RESOLVED_CONTRACT_ADDRESS)
 
+  // loading NFTs
   const { data: newFIRsData, isLoading: newFIRsDataLoading } = useOwnedNFTs(newFIRsCollection, address)
-  const { data: pendingCollectionData } = useOwnedNFTs(pendingFIRsCollection, address)
-  const { data: resolvedFIRsData } = useOwnedNFTs(resolvedFIRsCollection, address)
+  const { data: pendingCollectionData, isLoading: pendingFIRsDataLoading } = useOwnedNFTs(pendingFIRsCollection, address)
+  const { data: resolvedFIRsData, isLoading: resolvedFIRsDataLoading } = useOwnedNFTs(resolvedFIRsCollection, address)
 
   let newFIRsMetadata: FIR[] = []
   let pendingFIRsMetadata: FIR[] = []
   let resolvedFIRsMetadata: FIR[] = []
 
-  if (newFIRsDataLoading) return <Loading />
+  if (newFIRsDataLoading || pendingFIRsDataLoading || resolvedFIRsDataLoading)
+    return <Loading />
 
+  // mapping NFTs to get metadata
   newFIRsData?.map(async (fir: any) => {
     const data = fir.metadata
     newFIRsMetadata.push(data)
@@ -63,7 +65,7 @@ const FIRTable = () => {
 
         <table className='w-full mt-7'>
           <thead className='w-full border-b border-gray-300'>
-            <tr className='bg-gray-200'>
+            <tr className='bg-slate-800'>
               <th className='table-header rounded-tl-lg'>FIR ID.</th>
               <th className='table-header'>Victim Name</th>
               <th className='table-header'>Victim Contact</th>
@@ -79,7 +81,7 @@ const FIRTable = () => {
                 resolvedFIRsMetadata)?.map((fir, index: number) => (
                   <tr
                     key={fir.id}
-                    className={`w-full hover:cursor-pointer ${index % 2 === 1 ? 'bg-sky-50' : 'bg-white'} text-sm border-b border-gray-300`}
+                    className={`w-full border-l border-gray-300 hover:cursor-pointer ${index % 2 === 1 ? 'bg-sky-50' : 'bg-white'} text-sm border-b border-gray-300`}
                   >
                     <td className='table-data'>
                       {fir.properties.firId.slice(0, 6)}...{fir.properties.firId.slice(-6)}
@@ -102,7 +104,7 @@ const FIRTable = () => {
                         {selectedStatus}
                       </span>
                     </td>
-                    <td className='table-data'>
+                    <td className='table-data border-r border-gray-300'>
                       <Dialog>
                         <DialogTrigger>
                           <EllipsisHorizontalIcon className='h-6 w-6' />

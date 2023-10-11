@@ -6,6 +6,11 @@ export const adminNavLinks = [
         icon: <Squares2X2Icon />
     },
     {
+        name: "FIR Listing",
+        path: '/admin/fir-listing',
+        icon: <ClipboardDocumentCheckIcon />
+    },
+    {
         name: "Profile",
         path: '/admin/profile',
         icon: <UserIcon />

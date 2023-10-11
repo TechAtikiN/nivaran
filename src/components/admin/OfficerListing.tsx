@@ -18,7 +18,7 @@ const OfficerListing = ({ policeOfficers }: Props) => {
   return (
     <>
       <div className="py-3 mt-5 rounded-md text-gray-800 ">
-        <div className="grid grid-cols-1 sm:grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 2xl:grid-cols-6 gap-x-28">
+        <div className="grid md:grid-cols-3 grid-cols-1 overflow-x-hidden overflow-y-scroll h-[530px] gap-y-5">
           {policeDetails.map((officer: OfficerMetadata) => (
             <OfficerCard image={officer.image} officer={officer} key={officer.id} />
           ))}

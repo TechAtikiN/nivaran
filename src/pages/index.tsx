@@ -2,7 +2,7 @@
 // named imports
 import { useEffect, useState } from 'react'
 import { userUserStore } from '@/store/useUserStore'
-import { NFT, useAddress, useContract, useOwnedNFTs } from '@thirdweb-dev/react'
+import { useAddress, useContract, useOwnedNFTs } from '@thirdweb-dev/react'
 import { useRouter } from 'next/navigation'
 
 // default imports
@@ -26,6 +26,10 @@ export default function Home() {
   const { contract: policeCollection } = useContract(process.env.NEXT_PUBLIC_POLICE_NFT_CONTRACT_ADDRESS)
   const { data: policeAccessNFTs, isLoading: policeAccessDataLoading } = useOwnedNFTs(policeCollection, address)
 
+  // if (role === Role.NULL) {
+  //   router.push('/login')
+  // }
+
   // set role based on address
   useEffect(() => {
     if (process.env.NEXT_PUBLIC_ADMIN_WALLET_ADDRESS === address) {
@@ -35,19 +39,20 @@ export default function Home() {
     } else {
       setRole(Role.NULL)
     }
+
   }, [address, policeAccessNFTs])
+
+  // if data is loading, show loading component
+  if (policeAccessDataLoading || address === null) {
+    return <Loading />
+  }
 
   if (process.env.NEXT_PUBLIC_ADMIN_WALLET_ADDRESS === address) {
     router.push('/admin')
   }
 
-  if (role === Role.NULL) {
-    return <NotAuthorized />
-  } else
+  if (role === Role.POLICE) {
+    router.push('/police')
+  }
 
-    if (role === Role.POLICE) {
-      router.push('/police')
-    } else if (policeAccessDataLoading) {
-      return <Loading />
-    }
 }

@@ -3,8 +3,8 @@ import DashboardLayout from "../globals/DashboardLayout"
 const PoliceDashboard = () => {
   return (
     <DashboardLayout>
-      <div>
-        <h1>Police Dashboard</h1>
+      <div className='p-4'>
+        <h2 className="dashboard-heading">Police Dashboard</h2>
       </div>
     </DashboardLayout>
   )
