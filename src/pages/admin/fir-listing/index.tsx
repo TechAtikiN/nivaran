@@ -1,7 +1,10 @@
-import { useAddress, useContract, useNFTs } from '@thirdweb-dev/react'
-import { useEffect, useState } from 'react'
+import { useContract, useNFTs } from '@thirdweb-dev/react'
+import { useState } from 'react'
 import DashboardLayout from '@/components/globals/DashboardLayout'
 import Loading from '@/components/globals/Loading'
+import { EllipsisHorizontalIcon } from '@heroicons/react/24/outline'
+import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle, DialogTrigger } from '@/components/ui/dialog'
+import FIRDetail from '@/components/globals/FIRDetail'
 
 const FIRListing = () => {
   const [selectedStatus, setSelectedStatus] = useState('New')
@@ -64,6 +67,7 @@ const FIRListing = () => {
                 <th className='table-header'>Victim Contact</th>
                 <th className='table-header'>Wallet Address</th>
                 <th className='table-header'>Status</th>
+                <th className='table-header'>Actions</th>
               </tr>
             </thead>
 
@@ -97,6 +101,27 @@ const FIRListing = () => {
                         >
                           {selectedStatus}
                         </span>
+                      </td>
+
+                      <td className='table-data'>
+                        <Dialog>
+                          <DialogTrigger className='hover:bg-gray-100 text-left p-1 text-sm rounded-md'>
+                            <EllipsisHorizontalIcon className='h-6 w-6' />
+                          </DialogTrigger>
+                          <DialogContent>
+                            <DialogHeader className='bg-slate-950 -mb-10 text-white rounded-md p-1 m-1'>
+                              <DialogTitle className='text-center font-semibold text-xl'>FIR Details</DialogTitle>
+                              <DialogDescription>
+                                <p className='font-semibold text-sky-300 text-center -mb-8'>FIR ID: {fir?.properties?.firId}</p>
+                              </DialogDescription>
+                            </DialogHeader>
+                            <FIRDetail
+                              newFIRsMetadata={newFIRsMetadata}
+                              pendingFIRsMetadata={pendingFIRsMetadata}
+                              resolvedFIRsMetadata={resolvedFIRsMetadata}
+                              fir={fir} />
+                          </DialogContent>
+                        </Dialog>
                       </td>
                     </tr>
                   ))}

@@ -1,10 +1,10 @@
 // named imports
 import { useEffect, useState } from 'react'
+import { useAuth } from '@/hooks/useAuth'
 import { NFT, useAddress, useContract } from '@thirdweb-dev/react'
 // default imports
 import DashboardLayout from '@/components/globals/DashboardLayout'
 import FIRTable from '@/components/police/FIRTable'
-import { useAuth } from '@/hooks/useAuth'
 import NotAuthorized from '@/components/globals/NotAuthorized'
 
 const FIRListing = () => {

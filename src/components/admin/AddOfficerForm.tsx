@@ -8,6 +8,7 @@ import {
 } from "@/components/ui/sheet";
 import { useContract, useMintNFT } from "@thirdweb-dev/react";
 import { useForm } from "react-hook-form";
+import toast from "react-hot-toast";
 
 type FormValues = {
   name: string
@@ -45,7 +46,7 @@ export function AddOfficerForm() {
         to: data.walletAddress,
         metadata: policeMetadata,
       })
-      alert('done minting nft')
+      toast.success('FIR created successfully')
     } catch (error) {
       alert('Error minting nft')
       console.log('error', error)

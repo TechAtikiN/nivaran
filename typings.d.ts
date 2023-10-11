@@ -13,6 +13,7 @@ type FIR = {
 
 type FIRProperties = {
     name: string;
+    status?: string;
     description: string;
     contact: string;
     email: string;

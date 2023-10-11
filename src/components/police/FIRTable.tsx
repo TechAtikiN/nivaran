@@ -10,9 +10,12 @@ import {
 } from '../ui/dialog'
 import { useAddress, useContract, useOwnedNFTs } from '@thirdweb-dev/react'
 import { EllipsisHorizontalIcon } from '@heroicons/react/24/solid'
+import { Popover, PopoverContent, PopoverTrigger } from '../ui/popover'
+// default imports
 import RegisterFIRForm from './RegisterFIRForm'
 import Loading from '../globals/Loading'
 import UpdateFIRForm from './UpdateFIRForm'
+import FIRDetail from '../globals/FIRDetail'
 
 const FIRTable = () => {
   const address = useAddress()
@@ -104,21 +107,54 @@ const FIRTable = () => {
                         {selectedStatus}
                       </span>
                     </td>
-                    <td className='table-data border-r border-gray-300'>
-                      <Dialog>
-                        <DialogTrigger>
+                    <td
+                      onClick={(e) => e.stopPropagation()}
+                      className='table-data border-r border-gray-300'>
+                      <Popover>
+                        <PopoverTrigger>
                           <EllipsisHorizontalIcon className='h-6 w-6' />
-                        </DialogTrigger>
-                        <DialogContent>
-                          <DialogHeader>
-                            <DialogTitle>Update Status</DialogTitle>
-                            <DialogDescription>
-                              <p className='font-semibold text-sky-700'>FIR ID: {fir.properties.firId}</p>
-                            </DialogDescription>
-                            <UpdateFIRForm fir={fir} />
-                          </DialogHeader>
-                        </DialogContent>
-                      </Dialog>
+                        </PopoverTrigger>
+                        <PopoverContent className='w-36'>
+
+                          <Dialog>
+                            <DialogTrigger className='hover:bg-gray-100 text-left p-1 text-sm rounded-md'>
+                              <p>View FIR</p>
+                            </DialogTrigger>
+                            <DialogContent>
+                              <DialogHeader className='bg-slate-950 -mb-10 text-white rounded-md p-1 m-1'>
+                                <DialogTitle className='text-center font-semibold text-xl'>FIR Details</DialogTitle>
+                                <DialogDescription>
+                                  <p className='font-semibold text-sky-300 text-center -mb-8'>FIR ID: {fir?.properties?.firId}</p>
+                                </DialogDescription>
+                              </DialogHeader>
+                              <FIRDetail
+                                newFIRsMetadata={newFIRsMetadata}
+                                pendingFIRsMetadata={pendingFIRsMetadata}
+                                resolvedFIRsMetadata={resolvedFIRsMetadata}
+                                fir={fir} />
+                            </DialogContent>
+                          </Dialog>
+
+                          <Dialog>
+                            <DialogTrigger className='hover:bg-gray-100 text-left p-1 text-sm rounded-md'>
+                              <p>Update Status</p>
+                            </DialogTrigger>
+                            <DialogContent>
+                              <DialogHeader className='bg-slate-950 text-white rounded-md p-2 m-1'>
+                                <DialogTitle className='text-center'>Update Status</DialogTitle>
+                                <DialogDescription>
+                                  <p className='text-center text-sky-300 font-semibold'>FIR ID: {fir?.properties?.firId}</p>
+                                  <p className='text-center -mb-14 mt-2 text-gray-300'>
+                                    You are about to update the status of FIR. Please make sure you are updating the status correctly.
+                                  </p>
+                                </DialogDescription>
+                              </DialogHeader>
+                              <UpdateFIRForm fir={fir} />
+                            </DialogContent>
+                          </Dialog>
+
+                        </PopoverContent>
+                      </Popover>
                     </td>
 
                   </tr>

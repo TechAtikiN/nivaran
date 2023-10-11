@@ -2,7 +2,7 @@ import { useRouter } from "next/router"
 import { useEffect, useState } from "react"
 
 const NotAuthorized = () => {
-  const [timer, setTimer] = useState(4000)
+  const [timer, setTimer] = useState(2000)
   const router = useRouter()
 
   useEffect(() => {
