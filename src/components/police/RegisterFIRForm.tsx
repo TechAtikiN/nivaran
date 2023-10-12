@@ -55,18 +55,37 @@ const RegisterFIRForm = () => {
     }
 
     // create FIR
+    // try {
+    //   toast.loading('Creating FIR')
+    //   await mintNft({
+    //     to: address || '',
+    //     metadata: firMetadata,
+    //   })
+    //   toast.dismiss()
+    //   toast.success('FIR created successfully')
+    // } catch (error) {
+    //   alert('Error minting FIR')
+    //   console.log('error', error)
+    // }
+
     try {
-      toast.loading('Creating FIR')
-      await mintNft({
-        to: address || '',
-        metadata: firMetadata,
+      const res = await fetch('/api/mailing', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({
+          ...data,
+          firId: firId
+        })
       })
-      toast.dismiss()
-      toast.success('FIR created successfully')
-    } catch (error) {
-      alert('Error minting FIR')
-      console.log('error', error)
+      if (res.status === 200) {
+        toast.success('Mailed FIR to the victim successfully')
+      }
+    } catch (err) {
+      alert('Something went wrong, please try again later')
     }
+
   })
 
   return (
