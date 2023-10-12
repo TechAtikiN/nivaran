@@ -20,7 +20,7 @@ export const adminNavLinks = [
 export const policeNavLinks = [
     {
         name: 'Home',
-        path: '/',
+        path: '/police',
         icon: <Squares2X2Icon />
     },
     {
