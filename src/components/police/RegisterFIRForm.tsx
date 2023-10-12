@@ -3,7 +3,6 @@ import { useAddress, useContract, useMintNFT } from '@thirdweb-dev/react'
 import { Button } from '../ui/button'
 import {
   Sheet,
-  SheetClose,
   SheetContent,
   SheetDescription,
   SheetFooter,
@@ -35,14 +34,13 @@ const RegisterFIRForm = () => {
   const { contract: newFIRCollection } = useContract(process.env.NEXT_PUBLIC_FIR_CREATED_CONTRACT_ADDRESS)
   const { mutateAsync: mintNft, isLoading: isMinting } = useMintNFT(newFIRCollection)
 
-  const { register, handleSubmit } = useForm<FormValues>()
+  const { register, handleSubmit, formState: { errors } } = useForm<FormValues>()
 
   function generateRandomId() {
     return uuidv4(); // Generate a random UUID (Universally Unique Identifier)
   }
 
   const onSubmit = handleSubmit(async (data) => {
-
     // generate FIR id
     const firId = generateRandomId();
 
@@ -89,74 +87,84 @@ const RegisterFIRForm = () => {
               <label htmlFor='name' className='text-xs'>
                 Victim Name:
               </label>
-              <input {...register("name")} id='name' className='form-input text-sm py-1' />
+              <input {...register('name', { required: true })} id='name' className='form-input text-sm py-1' />
+              {errors.name && <span className='text-red-500 text-xs'>Name is required</span>}
             </div>
             <div className='flex flex-col space-y-1'>
               <label htmlFor='email' className='text-xs'>
                 Victim Email:
               </label>
-              <input {...register("email")} id='email' className='form-input text-sm py-1' />
+              <input {...register('email', { required: true })} id='email' className='form-input text-sm py-1' />
+              {errors.email && <span className='text-red-500 text-xs'>Email is required</span>}
             </div>
             <div className='flex flex-col space-y-1'>
               <label htmlFor='contact' className='text-xs'>
                 Victim Contact:
               </label>
-              <input {...register("contact")} id='contact' className='form-input text-sm py-1' />
+              <input {...register('contact', { required: true })} id='contact' className='form-input text-sm py-1' />
+              {errors.contact && <span className='text-red-500 text-xs'>Contact is required</span>}
             </div>
             <div className='flex flex-col space-y-1'>
               <label htmlFor='location' className='text-xs'>
                 Location:
               </label>
-              <input {...register("location")} id='location' className='form-input text-sm py-1' />
+              <input {...register('location', { required: true })} id='location' className='form-input text-sm py-1' />
+              {errors.location && <span className='text-red-500 text-xs'>Location is required</span>}
             </div>
             <div className='flex flex-col space-y-1'>
               <label htmlFor='date' className='text-xs'>
                 Date:
               </label>
-              <input {...register("date")} id='date' type='date' className='form-input text-sm py-1' />
+              <input {...register('date', { required: true })} id='date' type='date' className='form-input text-sm py-1' />
+              {errors.date && <span className='text-red-500 text-xs'>Date is required</span>}
             </div>
             <div className='flex flex-col space-y-1'>
               <label htmlFor='time' className='text-xs'>
                 Time:
               </label>
-              <input {...register("time")} id='time' className='form-input text-sm py-1' />
+              <input {...register('time', { required: true })} id='time' className='form-input text-sm py-1' />
+              {errors.time && <span className='text-red-500 text-xs'>Time is required</span>}
             </div>
             <div className='flex flex-col space-y-1'>
               <label htmlFor='time' className='text-xs'>
                 Wallet Address:
               </label>
-              <input {...register("walletAddress")} id='walletAddress' className='form-input text-sm py-1' />
+              <input {...register('walletAddress', { required: true })} id='walletAddress' className='form-input text-sm py-1' />
+              {errors.walletAddress && <span className='text-red-500 text-xs'>Wallet Address is required</span>}
             </div>
             <div className='flex flex-col space-y-1'>
               <label htmlFor='description' className='text-xs'>
                 Description:
               </label>
               <textarea
-                {...register("description")}
+                {...register('description', { required: true })}
                 style={{ resize: 'none' }}
                 rows={4} id='description' className='form-input text-sm py-1'></textarea>
+              {errors.description && <span className='text-red-500 text-xs'>Description is required</span>}
             </div>
             <div className='flex flex-col space-y-1'>
               <label htmlFor='remark' className='text-xs'>
                 Remark:
               </label>
-              <input {...register("remark")} id='remark' className='form-input text-sm py-1' />
+              <input {...register('remark', { required: true })} id='remark' className='form-input text-sm py-1' />
+              {errors.remark && <span className='text-red-500 text-xs'>Remark is required</span>}
             </div>
             <div className='flex flex-col space-y-1'>
               <label htmlFor='documents' className='text-xs'>
                 Attach Documents
               </label>
               <input
-                {...register("documents")}
+                {...register('documents', { required: true })}
                 id='documents'
                 type='file'
                 className='form-input  text-sm py-1'
               />
+              {errors.documents && <span className='text-red-500 text-xs'>Documents are required</span>}
             </div>
             <SheetFooter>
-              <SheetClose asChild>
-                <Button type='submit'>Create FIR</Button>
-              </SheetClose>
+              {/* <SheetClose asChild> */}
+              <Button type='submit'>Create FIR</Button>
+              {/* </SheetClose> */}
             </SheetFooter>
           </form>
         </div>

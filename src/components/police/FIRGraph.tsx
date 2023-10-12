@@ -47,7 +47,7 @@ const FIRGraph = () => {
         data: crimeCounts,
         fill: {
           target: 'origin',
-          above: 'rgba(175, 200, 190, 0.4)',   // Area will be red above the origin
+          above: 'rgba(75, 1, 192, 0.2)',   // Area will be red above the origin
           below: 'rgb(4, 162, 235)'    // And blue below the origin
         }
       }

@@ -114,32 +114,35 @@ const UpdateFIRForm = ({ fir, selectedStatus }: Props) => {
             Documents
           </label>
           <input
-            {...register('documents')}
+            {...register('documents', { required: true })}
             id='documents'
             type='file'
             className='form-input'
           />
+          {errors.documents && <p className='text-red-500 -my-3'>Documents are required</p>}
         </div>
         <div className='grid grid-cols-4 items-center gap-4'>
           <label htmlFor=''>Update Status:</label>
           <select
             className='form-input'
-            {...register('status')}
+            {...register('status', { required: true })}
           >
             {selectedStatus === 'New' && <option value='Pending'>Pending</option>}
             <option value='Resolved'>Resolved</option>
           </select>
+          {errors.status && <p className='text-red-500 -my-3'>Status is required</p>}
         </div>
         <div className='grid grid-cols-4 items-center gap-4'>
           <label htmlFor='description'>
             Description
           </label>
           <textarea
-            {...register('description')}
+            {...register('description', { required: true })}
             rows={3}
             id='description'
             className='form-input'
           ></textarea>
+          {errors.description && <p className='text-red-500 -my-3'>Description is required</p>}
         </div>
       </div>
       <DialogFooter>

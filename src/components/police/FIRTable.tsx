@@ -117,8 +117,8 @@ const FIRTable = () => {
                         <PopoverContent className='w-36'>
 
                           <Dialog>
-                            <DialogTrigger className='hover:bg-gray-100 text-left p-1 text-sm rounded-md'>
-                              <p>View FIR</p>
+                            <DialogTrigger className='w-full mb-1 bg-gray-100 hover:bg-gray-300 text-left p-1 text-sm rounded-sm'>
+                              <p className='text-center'>View FIR</p>
                             </DialogTrigger>
                             <DialogContent>
                               <DialogHeader className='bg-slate-950 -mb-10 text-white rounded-md p-1 m-1'>
@@ -136,9 +136,9 @@ const FIRTable = () => {
                           </Dialog>
 
                           <Dialog>
-                            <DialogTrigger className='hover:bg-gray-100 text-left p-1 text-sm rounded-md'>
+                            <DialogTrigger className='w-full bg-gray-200 hover:bg-gray-300 text-left p-1 text-sm rounded-sm'>
                               {selectedStatus !== 'Resolved' && (
-                                <p>Update Status</p>
+                                <p className='text-center'>Update Status</p>
                               )}
                             </DialogTrigger>
                             <DialogContent>
