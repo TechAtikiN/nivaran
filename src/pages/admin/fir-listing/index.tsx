@@ -76,7 +76,7 @@ const FIRListing = () => {
                 <th className='table-header'>Victim Contact</th>
                 <th className='table-header'>Wallet Address</th>
                 <th className='table-header'>Status</th>
-                <th className='table-header'>Actions</th>
+                <th className='table-header rounded-tr-lg'>Actions</th>
               </tr>
             </thead>
 
@@ -118,10 +118,10 @@ const FIRListing = () => {
                             <EllipsisHorizontalIcon className='h-6 w-6' />
                           </DialogTrigger>
                           <DialogContent>
-                            <DialogHeader className='bg-slate-950 -mb-10 text-white rounded-md p-1 m-1'>
+                            <DialogHeader className='-mb-10 text-gray-700 rounded-md p-1 m-1'>
                               <DialogTitle className='text-center font-semibold text-xl'>FIR Details</DialogTitle>
                               <DialogDescription>
-                                <p className='font-semibold text-sky-300 text-center -mb-8'>FIR ID: {fir?.properties?.firId}</p>
+                                <p className='font-bold text-black  text-center -mb-8'>FIR ID: {fir?.properties?.firId}</p>
                               </DialogDescription>
                             </DialogHeader>
                             <FIRDetail

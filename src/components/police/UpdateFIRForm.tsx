@@ -45,8 +45,29 @@ const UpdateFIRForm = ({ fir, selectedStatus }: Props) => {
 
   const { register, handleSubmit, formState: { errors } } = useForm<FormValues>()
 
-  const onSubmit = handleSubmit(async (data) => {
+  const handleMailing = async (data: any, status: string, fir: FIR) => {
+    try {
+      const res = await fetch('/api/mailing', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({
+          ...data,
+          email: fir.properties.email,
+          firId: fir.properties.firId,
+          status: status
+        })
+      })
+      if (res.status === 200) {
+        toast.success('Information mailed successfully')
+      }
+    } catch (err) {
+      alert('Something went wrong, please try again later')
+    }
+  }
 
+  const onSubmit = handleSubmit(async (data) => {
     const firMetadata = {
       name: `Filing for ${fir.properties.name}`,
       description: 'NEW FIR',
@@ -74,6 +95,7 @@ const UpdateFIRForm = ({ fir, selectedStatus }: Props) => {
           to: address || '',
           metadata: firMetadata,
         })
+        handleMailing(data, 'Pending', fir)
         toast.dismiss()
         toast.success('FIR status changed to pending')
       } else {
@@ -86,6 +108,7 @@ const UpdateFIRForm = ({ fir, selectedStatus }: Props) => {
           to: address || '',
           metadata: firMetadata,
         })
+        handleMailing(data, 'Resolved', fir)
         toast.dismiss()
         toast.success('FIR status changed to resolved')
       }
@@ -93,6 +116,7 @@ const UpdateFIRForm = ({ fir, selectedStatus }: Props) => {
       toast.dismiss()
       toast.error('Error changing FIR status')
     }
+
   })
 
   return (

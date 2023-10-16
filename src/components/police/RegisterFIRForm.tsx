@@ -32,7 +32,7 @@ const FIR_THUMBNAIL = 'https://e-gmat.com/blogs/wp-content/uploads/2021/04/f1-vi
 const RegisterFIRForm = () => {
   const address = useAddress()
   const { contract: newFIRCollection } = useContract(process.env.NEXT_PUBLIC_FIR_CREATED_CONTRACT_ADDRESS)
-  const { mutateAsync: mintNft, isLoading: isMinting } = useMintNFT(newFIRCollection)
+  const { mutateAsync: mintNft } = useMintNFT(newFIRCollection)
 
   const { register, handleSubmit, formState: { errors } } = useForm<FormValues>()
 
@@ -44,30 +44,32 @@ const RegisterFIRForm = () => {
     // generate FIR id
     const firId = generateRandomId();
 
+    // create FIR metadata
     const firMetadata = {
       name: `Filing for ${data.name}`,
       description: 'NEW FIR',
       image: FIR_THUMBNAIL,
       properties: {
         ...data,
-        firId: firId
+        firId: firId,
       }
     }
 
-    // create FIR
-    // try {
-    //   toast.loading('Creating FIR')
-    //   await mintNft({
-    //     to: address || '',
-    //     metadata: firMetadata,
-    //   })
-    //   toast.dismiss()
-    //   toast.success('FIR created successfully')
-    // } catch (error) {
-    //   alert('Error minting FIR')
-    //   console.log('error', error)
-    // }
+    // create FIR 
+    try {
+      toast.loading('Creating FIR')
+      await mintNft({
+        to: address || '',
+        metadata: firMetadata,
+      })
+      toast.dismiss()
+      toast.success('FIR created successfully')
+    } catch (error) {
+      alert('Error minting FIR')
+      console.log('error', error)
+    }
 
+    // mail FIR to victim and admin
     try {
       const res = await fetch('/api/mailing', {
         method: 'POST',
@@ -76,7 +78,8 @@ const RegisterFIRForm = () => {
         },
         body: JSON.stringify({
           ...data,
-          firId: firId
+          firId: firId,
+          status: 'New'
         })
       })
       if (res.status === 200) {
@@ -85,13 +88,12 @@ const RegisterFIRForm = () => {
     } catch (err) {
       alert('Something went wrong, please try again later')
     }
-
   })
 
   return (
     <Sheet>
       <SheetTrigger asChild>
-        <button className='bg-sky-300 px-5 py-1 text-gray-700 font-semibold rounded-md'>Create FIR</button>
+        <button className='officer-btn text-sm'>Create FIR</button>
       </SheetTrigger>
       <SheetContent className='w-[400px] sm:w-[540px]'>
         <SheetHeader>

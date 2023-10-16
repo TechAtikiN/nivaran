@@ -79,88 +79,89 @@ const FIRTable = () => {
           </thead>
 
           <tbody className=''>
-            {(selectedStatus === 'New' ? newFIRsMetadata :
-              selectedStatus === 'Pending' ? pendingFIRsMetadata :
-                resolvedFIRsMetadata)?.map((fir, index: number) => (
-                  <tr
-                    key={fir.id}
-                    className={`w-full border-l border-gray-300 hover:cursor-pointer ${index % 2 === 1 ? 'bg-sky-50' : 'bg-white'} text-sm border-b border-gray-300`}
-                  >
-                    <td className='table-data'>
-                      {fir.properties.firId.slice(0, 6)}...{fir.properties.firId.slice(-6)}
-                    </td>
-                    <td className='table-data text-sm'>
-                      <p>{fir.properties.name}</p>
-                      <p className='text-xs'>{fir.properties.email}</p>
-                    </td>
-                    <td className='table-data'>{fir.properties.contact}</td>
-                    <td className='table-data'>
-                      {fir.properties.walletAddress.slice(0, 6)}...{fir.properties.walletAddress.slice(-6)}
-                    </td>
-                    <td className='table-data'>
-                      <span
-                        className={`px-2 py-1 rounded-full text-xs ${selectedStatus === 'Pending'
-                          ? 'bg-rose-100 text-rose-600'
-                          : selectedStatus === 'In-progress' ? 'bg-yellow-100 text-yellow-600' : 'bg-green-100 text-green-600'
-                          }`}
-                      >
-                        {selectedStatus}
-                      </span>
-                    </td>
-                    <td
-                      onClick={(e) => e.stopPropagation()}
-                      className='table-data border-r border-gray-300'>
-                      <Popover>
-                        <PopoverTrigger>
-                          <EllipsisHorizontalIcon className='h-6 w-6' />
-                        </PopoverTrigger>
-                        <PopoverContent className='w-36'>
+            {
+              (selectedStatus === 'New' ? newFIRsMetadata :
+                selectedStatus === 'Pending' ? pendingFIRsMetadata :
+                  resolvedFIRsMetadata)?.map((fir, index: number) => (
+                    <tr
+                      key={fir.id}
+                      className={`w-full border-l border-gray-300 hover:cursor-pointer ${index % 2 === 1 ? 'bg-sky-50' : 'bg-white'} text-sm border-b border-gray-300`}
+                    >
+                      <td className='table-data'>
+                        {fir.properties.firId.slice(0, 6)}...{fir.properties.firId.slice(-6)}
+                      </td>
+                      <td className='table-data text-sm'>
+                        <p>{fir.properties.name}</p>
+                        <p className='text-xs'>{fir.properties.email}</p>
+                      </td>
+                      <td className='table-data'>{fir.properties.contact}</td>
+                      <td className='table-data'>
+                        {fir.properties.walletAddress.slice(0, 6)}...{fir.properties.walletAddress.slice(-6)}
+                      </td>
+                      <td className='table-data'>
+                        <span
+                          className={`px-2 py-1 rounded-full text-xs ${selectedStatus === 'Pending'
+                            ? 'bg-rose-100 text-rose-600'
+                            : selectedStatus === 'In-progress' ? 'bg-yellow-100 text-yellow-600' : 'bg-green-100 text-green-600'
+                            }`}
+                        >
+                          {selectedStatus}
+                        </span>
+                      </td>
+                      <td
+                        onClick={(e) => e.stopPropagation()}
+                        className='table-data border-r border-gray-300'>
+                        <Popover>
+                          <PopoverTrigger>
+                            <EllipsisHorizontalIcon className='h-6 w-6' />
+                          </PopoverTrigger>
+                          <PopoverContent className='w-36'>
 
-                          <Dialog>
-                            <DialogTrigger className='w-full mb-1 bg-gray-100 hover:bg-gray-300 text-left p-1 text-sm rounded-sm'>
-                              <p className='text-center'>View FIR</p>
-                            </DialogTrigger>
-                            <DialogContent>
-                              <DialogHeader className='bg-slate-950 -mb-10 text-white rounded-md p-1 m-1'>
-                                <DialogTitle className='text-center font-semibold text-xl'>FIR Details</DialogTitle>
-                                <DialogDescription>
-                                  <p className='font-semibold text-sky-300 text-center -mb-8'>FIR ID: {fir?.properties?.firId}</p>
-                                </DialogDescription>
-                              </DialogHeader>
-                              <FIRDetail
-                                newFIRsMetadata={newFIRsMetadata}
-                                pendingFIRsMetadata={pendingFIRsMetadata}
-                                resolvedFIRsMetadata={resolvedFIRsMetadata}
-                                fir={fir} />
-                            </DialogContent>
-                          </Dialog>
+                            <Dialog>
+                              <DialogTrigger className='w-full mb-1 bg-gray-100 hover:bg-gray-300 text-left p-1 text-sm rounded-sm'>
+                                <p className='text-center'>View FIR</p>
+                              </DialogTrigger>
+                              <DialogContent>
+                                <DialogHeader className='-mb-10 p-1 m-1'>
+                                  <DialogTitle className='text-center font-semibold text-xl'>FIR Details</DialogTitle>
+                                  <DialogDescription>
+                                    <p className='font-bold text-black text-center -mb-8'>FIR ID: {fir?.properties?.firId}</p>
+                                  </DialogDescription>
+                                </DialogHeader>
+                                <FIRDetail
+                                  newFIRsMetadata={newFIRsMetadata}
+                                  pendingFIRsMetadata={pendingFIRsMetadata}
+                                  resolvedFIRsMetadata={resolvedFIRsMetadata}
+                                  fir={fir} />
+                              </DialogContent>
+                            </Dialog>
 
-                          <Dialog>
-                            <DialogTrigger className='w-full bg-gray-200 hover:bg-gray-300 text-left p-1 text-sm rounded-sm'>
+                            <Dialog>
                               {selectedStatus !== 'Resolved' && (
-                                <p className='text-center'>Update Status</p>
+                                <DialogTrigger className='w-full bg-gray-200 hover:bg-gray-300 text-left p-1 text-sm rounded-sm'>
+                                  <p className='text-center'>Update Status</p>
+                                </DialogTrigger>
                               )}
-                            </DialogTrigger>
-                            <DialogContent>
-                              <DialogHeader className='bg-slate-950 text-white rounded-md p-2 m-1'>
-                                <DialogTitle className='text-center'>Update Status</DialogTitle>
-                                <DialogDescription>
-                                  <p className='text-center text-sky-300 font-semibold'>FIR ID: {fir?.properties?.firId}</p>
-                                  <p className='text-center -mb-14 mt-2 text-gray-300'>
-                                    You are about to update the status of FIR. Please make sure you are updating the status correctly.
-                                  </p>
-                                </DialogDescription>
-                              </DialogHeader>
-                              <UpdateFIRForm selectedStatus={selectedStatus} fir={fir} />
-                            </DialogContent>
-                          </Dialog>
+                              <DialogContent>
+                                <DialogHeader className='p-2 m-1'>
+                                  <DialogTitle className='text-center'>Update Status</DialogTitle>
+                                  <DialogDescription>
+                                    <p className='text-center text-black font-bold'>FIR ID: {fir?.properties?.firId}</p>
+                                    <p className='text-center -mb-14 mt-2 text-gray-800'>
+                                      You are about to update the status of FIR. Please make sure you are updating the status correctly.
+                                    </p>
+                                  </DialogDescription>
+                                </DialogHeader>
+                                <UpdateFIRForm selectedStatus={selectedStatus} fir={fir} />
+                              </DialogContent>
+                            </Dialog>
 
-                        </PopoverContent>
-                      </Popover>
-                    </td>
+                          </PopoverContent>
+                        </Popover>
+                      </td>
 
-                  </tr>
-                ))}
+                    </tr>
+                  ))}
           </tbody>
         </table>
 

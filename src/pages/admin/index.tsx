@@ -10,11 +10,11 @@ const AdminView = () => {
   const address = useAddress()
   const router = useRouter()
 
-  useEffect(() => {
-    if (process.env.NEXT_PUBLIC_ADMIN_WALLET_ADDRESS !== address) {
-      router.push('/login')
-    }
-  }, [address])
+  // useEffect(() => {
+  //   if (process.env.NEXT_PUBLIC_ADMIN_WALLET_ADDRESS !== address) {
+  //     router.push('/login')
+  //   }
+  // }, [address])
 
   return (
 
