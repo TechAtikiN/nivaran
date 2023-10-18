@@ -16,8 +16,10 @@ import RegisterFIRForm from './RegisterFIRForm'
 import Loading from '../globals/Loading'
 import UpdateFIRForm from './UpdateFIRForm'
 import FIRDetail from '../globals/FIRDetail'
+import { useHandleComplaintStore } from '@/store/useUserStore'
 
 const FIRTable = () => {
+  const [complaint] = useHandleComplaintStore((state) => [state.complaint])
   const address = useAddress()
   const [selectedStatus, setSelectedStatus] = useState('New')
 
@@ -62,7 +64,7 @@ const FIRTable = () => {
             <button onClick={() => setSelectedStatus('Pending')} className={`badge-btn ${selectedStatus === 'Pending' ? 'bg-sky-100' : 'bg-white'}`}>Pending</button>
             <button onClick={() => setSelectedStatus('Resolved')} className={`badge-btn ${selectedStatus === 'Resolved' ? 'bg-sky-100' : 'bg-white'}`}>Resolved</button>
           </div>
-          <RegisterFIRForm />
+          <RegisterFIRForm complaint={complaint} />
 
         </div>
 
@@ -78,7 +80,7 @@ const FIRTable = () => {
             </tr>
           </thead>
 
-          <tbody className=''>
+          <tbody className='h-[10px] overflow-x-auto overflow-y-scroll'>
             {
               (selectedStatus === 'New' ? newFIRsMetadata :
                 selectedStatus === 'Pending' ? pendingFIRsMetadata :

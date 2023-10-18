@@ -1,6 +1,8 @@
 // named imports
 import { useContract, useContractRead } from '@thirdweb-dev/react';
 import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from '@/components/ui/accordion';
+import { useRouter } from 'next/navigation';
+import { useHandleComplaintStore } from '@/store/useUserStore';
 // default imports
 import DashboardLayout from '@/components/globals/DashboardLayout'
 import Loading from '@/components/globals/Loading';
@@ -9,6 +11,7 @@ const ComplaintListing = () => {
 
   const { contract } = useContract('0x3f5469688063763A62d4962D0d12711131265795');
   const { data, isLoading } = useContractRead(contract, 'getAllComplaints')
+  const router = useRouter()
 
   const complaints = data?.map((complaint: any, index: number) => {
     return {
@@ -23,6 +26,7 @@ const ComplaintListing = () => {
     }
   })
 
+  const [complaint, setComplaint] = useHandleComplaintStore((state) => [state.complaint, state.setComplaint])
   if (isLoading) return <Loading />
 
   return (
@@ -41,7 +45,7 @@ const ComplaintListing = () => {
             </tr>
           </thead>
 
-          <tbody className='h-[10px] overflow-x-auto overflow-y-scroll'>
+          <tbody>
             {complaints?.map((complaint: Complaint, index: number) => (
               <tr className={`w-full border-l border-gray-300 hover:cursor-pointer ${index % 2 === 1 ? 'bg-sky-50' : 'bg-white'} text-sm border-b border-gray-300`} key={complaint?.complaintId}>
                 <Accordion key={index} type="single" collapsible>
@@ -63,6 +67,12 @@ const ComplaintListing = () => {
                     <AccordionContent>
                       <div className='px-5 pt-2 space-y-2'>
                         <p className='text-xs px-10 text-center'><span className='font-semibold'>Description</span>: {complaint?.description}</p>
+                        <button
+                          onClick={() => {
+                            setComplaint(complaint)
+                            router.push('/police/listing')
+                          }}
+                          className='add-officer-btn ml-[420px] rounded-none text-xs'>File FIR</button>
                       </div>
                     </AccordionContent>
                   </AccordionItem>

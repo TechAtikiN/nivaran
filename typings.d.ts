@@ -43,3 +43,14 @@ type Officer = {
     location: string;
     idCard: FileList;
 };
+
+type Complaint = {
+    complaintId: number;
+    walletAddress: string;
+    name: string;
+    contact: string;
+    email: string;
+    address: string;
+    title: string;
+    description: string;
+} | null;

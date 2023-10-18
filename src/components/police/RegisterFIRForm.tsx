@@ -14,6 +14,9 @@ import { useForm } from 'react-hook-form'
 import toast from 'react-hot-toast'
 import { v4 as uuidv4 } from 'uuid';
 
+interface Props {
+  complaint: Complaint
+}
 type FormValues = {
   name: string
   email: string
@@ -29,7 +32,7 @@ type FormValues = {
 
 const FIR_THUMBNAIL = 'https://e-gmat.com/blogs/wp-content/uploads/2021/04/f1-visa-documents.jpg'
 
-const RegisterFIRForm = () => {
+const RegisterFIRForm = ({ complaint }: Props) => {
   const address = useAddress()
   const { contract: newFIRCollection } = useContract(process.env.NEXT_PUBLIC_FIR_CREATED_CONTRACT_ADDRESS)
   const { mutateAsync: mintNft } = useMintNFT(newFIRCollection)
@@ -108,35 +111,60 @@ const RegisterFIRForm = () => {
               <label htmlFor='name' className='text-xs'>
                 Victim Name:
               </label>
-              <input {...register('name', { required: true })} id='name' className='form-input text-sm py-1' />
+              <input
+                defaultValue={complaint?.name}
+                {...register('name', { required: true })}
+                id='name'
+                className='form-input text-sm py-1'
+              />
               {errors.name && <span className='text-red-500 text-xs'>Name is required</span>}
             </div>
             <div className='flex flex-col space-y-1'>
               <label htmlFor='email' className='text-xs'>
                 Victim Email:
               </label>
-              <input {...register('email', { required: true })} id='email' className='form-input text-sm py-1' />
+              <input
+                defaultValue={complaint?.email}
+                {...register('email', { required: true })}
+                id='email'
+                className='form-input text-sm py-1'
+              />
               {errors.email && <span className='text-red-500 text-xs'>Email is required</span>}
             </div>
             <div className='flex flex-col space-y-1'>
               <label htmlFor='contact' className='text-xs'>
                 Victim Contact:
               </label>
-              <input {...register('contact', { required: true })} id='contact' className='form-input text-sm py-1' />
+              <input
+                defaultValue={complaint?.contact}
+                {...register('contact', { required: true })}
+                id='contact'
+                className='form-input text-sm py-1'
+              />
               {errors.contact && <span className='text-red-500 text-xs'>Contact is required</span>}
             </div>
             <div className='flex flex-col space-y-1'>
               <label htmlFor='location' className='text-xs'>
                 Location:
               </label>
-              <input {...register('location', { required: true })} id='location' className='form-input text-sm py-1' />
+              <input
+                defaultValue={complaint?.address}
+                {...register('location', { required: true })}
+                id='location'
+                className='form-input text-sm py-1'
+              />
               {errors.location && <span className='text-red-500 text-xs'>Location is required</span>}
             </div>
             <div className='flex flex-col space-y-1'>
               <label htmlFor='date' className='text-xs'>
                 Date:
               </label>
-              <input {...register('date', { required: true })} id='date' type='date' className='form-input text-sm py-1' />
+              <input
+                {...register('date', { required: true })}
+                id='date'
+                type='date'
+                className='form-input text-sm py-1'
+              />
               {errors.date && <span className='text-red-500 text-xs'>Date is required</span>}
             </div>
             <div className='flex flex-col space-y-1'>
@@ -150,7 +178,12 @@ const RegisterFIRForm = () => {
               <label htmlFor='time' className='text-xs'>
                 Wallet Address:
               </label>
-              <input {...register('walletAddress', { required: true })} id='walletAddress' className='form-input text-sm py-1' />
+              <input
+                defaultValue={complaint?.walletAddress}
+                {...register('walletAddress', { required: true })}
+                id='walletAddress'
+                className='form-input text-sm py-1'
+              />
               {errors.walletAddress && <span className='text-red-500 text-xs'>Wallet Address is required</span>}
             </div>
             <div className='flex flex-col space-y-1'>
@@ -158,6 +191,7 @@ const RegisterFIRForm = () => {
                 Description:
               </label>
               <textarea
+                defaultValue={complaint?.description}
                 {...register('description', { required: true })}
                 style={{ resize: 'none' }}
                 rows={4} id='description' className='form-input text-sm py-1'></textarea>

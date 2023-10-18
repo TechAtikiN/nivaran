@@ -1,12 +1,11 @@
 
 // named imports
-import { useEffect, useState } from 'react'
+import { useEffect } from 'react'
+import { useRouter } from 'next/navigation'
 import { userUserStore } from '@/store/useUserStore'
 import { useAddress, useContract, useOwnedNFTs } from '@thirdweb-dev/react'
-import { useRouter } from 'next/navigation'
 
 // default imports
-import NotAuthorized from '@/components/globals/NotAuthorized'
 import Loading from '@/components/globals/Loading'
 
 enum Role {

@@ -1,4 +1,4 @@
-import { ClipboardDocumentCheckIcon, ClipboardDocumentListIcon, DocumentPlusIcon, Squares2X2Icon, UserIcon } from '@heroicons/react/24/solid'
+import { ClipboardDocumentCheckIcon, ClipboardDocumentListIcon, Squares2X2Icon, UserIcon } from '@heroicons/react/24/solid'
 export const adminNavLinks = [
     {
         name: "Police Listing",
@@ -6,14 +6,14 @@ export const adminNavLinks = [
         icon: <Squares2X2Icon />
     },
     {
-        name: "FIR Listing",
-        path: '/admin/fir-listing',
-        icon: <ClipboardDocumentCheckIcon />
-    },
-    {
         name: "Complaints Listing",
         path: '/admin/complaint-listing',
         icon: <ClipboardDocumentListIcon />
+    },
+    {
+        name: "FIR Listing",
+        path: '/admin/fir-listing',
+        icon: <ClipboardDocumentCheckIcon />
     },
     {
         name: "Profile",
@@ -27,6 +27,11 @@ export const policeNavLinks = [
         name: 'Home',
         path: '/police',
         icon: <Squares2X2Icon />
+    },
+    {
+        name: "Complaints Listing",
+        path: '/police/complaint-listing',
+        icon: <ClipboardDocumentListIcon />
     },
     {
         name: 'FIR Listing',

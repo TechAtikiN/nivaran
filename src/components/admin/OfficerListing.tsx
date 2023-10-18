@@ -1,12 +1,13 @@
-import { NFT, useContract } from '@thirdweb-dev/react';
-import OfficerCard from './OfficerCard';
+// named imports
+import { NFT } from '@thirdweb-dev/react'
+// default imports
+import OfficerCard from './OfficerCard'
 
 interface Props {
   policeOfficers: NFT[];
 }
 
 const OfficerListing = ({ policeOfficers }: Props) => {
-  const { contract } = useContract(process.env.NEXT_PUBLIC_POLICE_NFT_CONTRACT_ADDRESS)
   let policeDetails: any = []
 
   policeOfficers?.map(async (officer) => {
