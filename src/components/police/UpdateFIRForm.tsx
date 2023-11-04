@@ -41,8 +41,6 @@ const UpdateFIRForm = ({ fir, selectedStatus }: Props) => {
     resolvedFIRsMetadata.push(data)
   })
 
-  console.log(pendingFIRsMetadata, resolvedFIRsMetadata)
-
   const { register, handleSubmit, formState: { errors } } = useForm<FormValues>()
 
   const handleMailing = async (data: any, status: string, fir: FIR) => {

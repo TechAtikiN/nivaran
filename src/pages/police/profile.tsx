@@ -1,8 +1,8 @@
-import DashboardLayout from "@/components/globals/DashboardLayout"
-import NotAuthorized from "@/components/globals/NotAuthorized"
-import { useAuth } from "@/hooks/useAuth"
-import { userUserStore } from "@/store/useUserStore"
-import { CheckBadgeIcon } from "@heroicons/react/24/solid"
+import { useAuth } from '@/hooks/useAuth'
+import { userUserStore } from '@/store/useUserStore'
+import { CheckBadgeIcon } from '@heroicons/react/24/solid'
+import DashboardLayout from '@/components/globals/DashboardLayout'
+import NotAuthorized from '@/components/globals/NotAuthorized'
 
 const ProfilePage = () => {
   const [role, userAddress, setRole] = userUserStore(state => [state.role, state.userAddress, state.setRole])
@@ -11,7 +11,8 @@ const ProfilePage = () => {
   if (!isAuthenicated) return <NotAuthorized />
 
   const features = [
-    'Analyse Police Data',
+    'Analyse criminal data',
+    'View victim complaints',
     'View FIR Listing',
     'View FIR Details',
     'Update FIR Status'

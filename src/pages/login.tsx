@@ -4,6 +4,7 @@ import { useRouter } from 'next/navigation'
 import { ConnectWallet, useAddress } from '@thirdweb-dev/react'
 import { ArrowUpRightIcon } from '@heroicons/react/24/solid'
 import { userUserStore } from '@/store/useUserStore'
+
 // default imports
 import Image from 'next/image'
 
@@ -24,17 +25,23 @@ const Login = () => {
 
   useEffect(() => {
     setUserAddress(address as string)
-  }, [address])
+  }, [address, setUserAddress])
 
   const handleRoleChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
     setRole(e.target.value as Role)
   }
 
   return (
-    <div className='lg:grid lg:grid-cols-11 h-screen'>
+    <div className='lg:grid lg:grid-cols-12 h-screen'>
       {/* left section  */}
-      <div className='col-span-5 bg-sky-200'>
-
+      <div className='col-span-6 p-5 bg-sky-50'>
+        <Image
+          alt='login image'
+          width={100}
+          height={100}
+          className='h-full w-full object-fill rounded-full'
+          src='/login-hero.jpg'
+        />
       </div>
 
       {/* right section  */}

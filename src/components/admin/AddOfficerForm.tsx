@@ -38,10 +38,7 @@ export function AddOfficerForm() {
       }
     }
 
-    console.log('policeMetadata', policeMetadata)
-
     try {
-      console.log('minting nft')
       await mintNft({
         to: data.walletAddress,
         metadata: policeMetadata,

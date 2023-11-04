@@ -8,7 +8,6 @@ import { CheckBadgeIcon } from '@heroicons/react/24/solid'
 const ProfilePage = () => {
   const [role, userAddress, setRole] = userUserStore(state => [state.role, state.userAddress, state.setRole])
   const isAdmin = process.env.NEXT_PUBLIC_ADMIN_WALLET_ADDRESS === userAddress ? true : false
-  console.log(role)
 
   if (!isAdmin) return <NotAuthorized />
 
@@ -17,6 +16,7 @@ const ProfilePage = () => {
     'Remove Police Officers',
     'View Police Officers',
     'Grant access to Police Officers',
+    'View victim complaints',
     'View FIR Listing'
   ]
 

@@ -12,8 +12,7 @@ const transporter = createTransport({
 // @ts-ignore
 export default async function handler(req, res) {
     const { email, name, contact, location, remark, firId, status } = req.body;
-    console.log(req.body);
-
+    
     // html template for mail being sent to organization
     let adminMailFormattedHtml = ``;
 
