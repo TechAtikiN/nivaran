@@ -34,24 +34,22 @@ const Login = () => {
   return (
     <div className='lg:grid lg:grid-cols-12 h-screen'>
       {/* left section  */}
-      <div className='col-span-6 p-5 bg-sky-50'>
-        <Image
+      <div className='col-span-6 p-5 bg-gradient-to-tr from-blue-500 to-sky-800 via-sky-400'>
+        {/* <Image
           alt='login image'
           width={100}
           height={100}
           className='h-full w-full object-fill rounded-full'
           src='/login-hero.jpg'
-        />
+        /> */}
       </div>
 
       {/* right section  */}
       <div className='col-span-6'>
         {/* thirdweb connect btn */}
-        <div className='m-3'>
-          <ConnectWallet theme='dark' />
-        </div>
 
-        <div className='flex flex-col items-center mb-10'>
+
+        <div className='flex flex-col items-center my-10'>
 
           {/* logo */}
           <div>
@@ -68,17 +66,23 @@ const Login = () => {
           <p className='text-sm mt-2 text-sky-600'>Decentralised FIR Management System</p>
 
           {/* select role  */}
-          <div className='my-5 flex flex-col items-center space-y-2'>
-            <p className='font-bold py-2 text-sky-800'>Access the Dashboard as</p>
-            <select
-              value={role}
-              onChange={(e) => handleRoleChange(e)}
-              name='role' id='role'
-              className='bg-sky-100 p-2 focus:outline-none font-bold text-sky-600 rounded-tl-xl rounded-br-xl border border-sky-400 w-1/2'
-            >
-              <option value='Police'>{Role.POLICE}</option>
-              <option value='Admin'>{Role.ADMIN}</option>
-            </select>
+          <div>
+            <div className='my-5 flex flex-col items-center space-y-2'>
+              <p className='font-bold py-2 text-sky-800'>Access the Dashboard as</p>
+              <select
+                value={role}
+                onChange={(e) => handleRoleChange(e)}
+                name='role' id='role'
+                className='bg-sky-100 p-2 focus:outline-none font-bold text-sky-600 rounded-tl-xl rounded-br-xl border border-sky-400 w-1/2'
+              >
+                <option value='Police'>{Role.POLICE}</option>
+                <option value='Admin'>{Role.ADMIN}</option>
+              </select>
+            </div>
+
+            <div className='m-3'>
+              <ConnectWallet theme='light' />
+            </div>
           </div>
 
           {/* go to dashboard btn  */}
