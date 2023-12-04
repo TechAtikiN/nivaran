@@ -1,6 +1,6 @@
 # Nivaran 
 
-Revolutionizing FIR Management through Blockchain for enhanced transparency and an efficient legal system. 🚀🔗
+Revolutionizing FIR Management through Blockchain for enhanced transparency and an efficient legal system. 🚀
 
 
 ## Key Features
